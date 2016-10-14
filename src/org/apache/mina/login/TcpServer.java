@@ -100,6 +100,7 @@ public class TcpServer extends IoHandlerAdapter {
      */
     @Override
     public void sessionCreated(IoSession session) throws Exception {
+    	long id = session.getId();
         System.out.println("Session created...");
     }
 
