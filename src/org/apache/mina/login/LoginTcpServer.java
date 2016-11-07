@@ -21,39 +21,47 @@ package org.apache.mina.login;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.mina.constants.Constants;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.apache.mina.utils.PropertiesUtils;
 
-/**
- * An TCP server used for performance tests.
- * 
- * It does nothing fancy, except receiving the messages, and counting the number of
- * received messages.
- * 
- * @author <a href="http://mina.apache.org">Apache MINA Project</a>
- */
-public class TcpServer extends IoHandlerAdapter {
-    /** The listening port (check that it's not already in use) */
-    public static final int PORT = 18567;
+public class LoginTcpServer extends IoHandlerAdapter
+{
+	public static int    listenPort;
+    public static String ipAddress;
+    
+    public void Initialize()
+    {
+    	try
+		{
+			Map<String, String> map = PropertiesUtils
+					.LoadProperties(Constants.GATE_CONFIG);
+			
+			ipAddress  = map.get("ip");
+			listenPort = Integer.parseInt(map.get("port"));
 
-    /** The number of message to receive */
-    public static final int MAX_RECEIVED = 100000;
+			NioSocketAcceptor acceptor = new NioSocketAcceptor();
+			acceptor.setHandler(this);
+			acceptor.bind(new InetSocketAddress(listenPort));
 
-    /** The starting point, set when we receive the first message */
-    private static long t0;
-
-    /** A counter incremented for every recieved message */
-    private AtomicInteger nbReceived = new AtomicInteger(0);
-
-    /**
-     * {@inheritDoc}
-     */
+			System.out.println("server started" + listenPort);
+			
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+    }
+    
     @Override
-    public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
+    public void exceptionCaught(IoSession session, Throwable cause) throws Exception
+    {
         cause.printStackTrace();
         session.closeNow();
     }
@@ -63,22 +71,7 @@ public class TcpServer extends IoHandlerAdapter {
      */
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
-
-        int nb = nbReceived.incrementAndGet();
-
-        if (nb == 1) {
-            t0 = System.currentTimeMillis();
-        }
-
-        if (nb == MAX_RECEIVED) {
-            long t1 = System.currentTimeMillis();
-            System.out.println("-------------> end " + (t1 - t0));
-        }
-
-        if (nb % 10000 == 0) {
-            System.out.println("Received " + nb + " messages");
-        }
-
+    
         // If we want to test the write operation, uncomment this line
         session.write(message);
     }
@@ -88,11 +81,9 @@ public class TcpServer extends IoHandlerAdapter {
      */
     @Override
     public void sessionClosed(IoSession session) throws Exception {
+    	super.sessionClosed(session);
         System.out.println("Session closed...");
 
-        // Reinitialize the counter and expose the number of received messages
-        System.out.println("Nb message received : " + nbReceived.get());
-        nbReceived.set(0);
     }
 
     /**
@@ -127,17 +118,14 @@ public class TcpServer extends IoHandlerAdapter {
      * 
      * @throws IOException If something went wrong
      */
-    public TcpServer() throws IOException {
+    public LoginTcpServer() throws IOException
+    {
         NioSocketAcceptor acceptor = new NioSocketAcceptor();
         acceptor.setHandler(this);
+        
+        acceptor.bind(new InetSocketAddress(listenPort));
 
-        // The logger, if needed. Commented atm
-        //DefaultIoFilterChainBuilder chain = acceptor.getFilterChain();
-        //chain.addLast("logger", new LoggingFilter());
-
-        acceptor.bind(new InetSocketAddress(PORT));
-
-        System.out.println("Server started...");
+        System.out.println("Server started" + listenPort);
     }
 
     /**
@@ -147,6 +135,6 @@ public class TcpServer extends IoHandlerAdapter {
      * @throws IOException If something went wrong
      */
     public static void main(String[] args) throws IOException {
-        new TcpServer();
+        new LoginTcpServer();
     }
 }
