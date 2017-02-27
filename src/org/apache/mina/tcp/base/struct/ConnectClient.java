@@ -4,7 +4,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.stream.ProtocolStreamWriter;
 
-public class ConnectClient
+public class ConnectClient extends ConnectBase
 {
 	public long              id;
 	public String            token;

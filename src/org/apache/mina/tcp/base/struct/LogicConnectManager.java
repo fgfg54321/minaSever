@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.tick.LogicReceiveTServerOffLineInfoWriter;
+import org.apache.mina.tcp.base.stream.TCPBaseReader;
 
 public class LogicConnectManager
 {
