@@ -37,7 +37,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
  */
 public class Main {
     /** Choose your favorite port number. */
-    private static final int PORT = 1234;
+    private static final int PORT = 12345;
 
     /** Set this to true if you want to make the server SSL */
     private static final boolean USE_SSL = false;
