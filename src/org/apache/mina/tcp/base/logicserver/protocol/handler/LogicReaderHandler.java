@@ -5,15 +5,16 @@ import java.util.HashMap;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 
 public class LogicReaderHandler
 {
 
-	public static HashMap<Integer,Class<TCPBaseReader>> clientMsgMaper = new  HashMap<Integer,Class<TCPBaseReader>>();
+	public static HashMap<Integer,Class<LogicBaseReader>> clientMsgMaper = new  HashMap<Integer,Class<LogicBaseReader>>();
 	
-	public static HashMap<Integer,Class<TCPBaseReader>> serverMsgMaper = new  HashMap<Integer,Class<TCPBaseReader>>();
+	public static HashMap<Integer,Class<LogicBaseReader>> serverMsgMaper = new  HashMap<Integer,Class<LogicBaseReader>>();
 	
 	public static void Initialize()
 	{
@@ -30,9 +31,8 @@ public class LogicReaderHandler
 			{
 				if(clientMsgMaper.containsKey(messageId))
 				{
-					Class<TCPBaseReader> readerClass = clientMsgMaper.get(messageId);
-					TCPBaseReader innerReader        = readerClass.newInstance();
-				
+					Class<LogicBaseReader> readerClass = clientMsgMaper.get(messageId);
+					LogicBaseReader innerReader      = readerClass.newInstance();
 					transTcpReader.SetInnerTcpReader(innerReader);
 					return innerReader.Read(reader, ioSession);
 				}
@@ -41,9 +41,8 @@ public class LogicReaderHandler
 			{
 				if(serverMsgMaper.containsKey(messageId))
 				{
-					Class<TCPBaseReader> readerClass = serverMsgMaper.get(messageId);
-					TCPBaseReader innerReader        = readerClass.newInstance();
-				
+					Class<LogicBaseReader> readerClass = serverMsgMaper.get(messageId);
+					LogicBaseReader innerReader        = readerClass.newInstance();
 					transTcpReader.SetInnerTcpReader(innerReader);
 					return innerReader.Read(reader, ioSession);
 				}

@@ -7,9 +7,11 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.log.MLog;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.stream.ProtocolStreamWriter;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
 import org.apache.mina.tcp.base.logicserver.protocol.handler.LogicReaderHandler;
 import org.apache.mina.tcp.base.stream.SplitPackage;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.struct.ConnectClient;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
@@ -18,8 +20,7 @@ import org.apache.mina.utils.SVZipUtils;
 public class LogicToTServerTransReader extends TCPBaseReader
 {
 
-	protected ConnectClient client;
-	protected ConnectLServer server;
+	protected ConnectBase  connectBase;
 	
 	/*
 	 * 0 client 1 server
@@ -27,7 +28,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
 	protected int    type;
 	protected byte[] datas;
     
-    protected TCPBaseReader innerTcpReader;
+    protected LogicBaseReader innerTcpReader;
     
     protected LogicReaderHandler readerHandler = new LogicReaderHandler();
     
@@ -38,16 +39,11 @@ public class LogicToTServerTransReader extends TCPBaseReader
     
     public long GetId()
     {
-    	long id = -1;
-    	if(type == TServerConfig.TYPE_CLIENT)
+    	if(connectBase != null)
     	{
-			id = client.id;
+    		return connectBase.id;
     	}
-		else if(type == TServerConfig.TYPE_LSERVER)
-		{
-			id = server.id;
-		}
-    	return id;
+    	return -1;
     }
     
     public long GetInnerUniqueId()
@@ -60,9 +56,10 @@ public class LogicToTServerTransReader extends TCPBaseReader
     }
     
     
-    public void SetInnerTcpReader(TCPBaseReader innerReader)
+    public void SetInnerTcpReader(LogicBaseReader innerReader)
     {
     	innerTcpReader = innerReader;
+    	innerTcpReader.SetConnectInfo(connectBase);
     }
     
     @Override
@@ -77,13 +74,13 @@ public class LogicToTServerTransReader extends TCPBaseReader
     	type = reader.ReadInt32();
     	if(type == TServerConfig.TYPE_CLIENT)
     	{
-    		client = new ConnectClient();
-    		client.Read(reader);
+    		connectBase = new ConnectClient();
+    		connectBase.Read(reader);
     	}
     	else if(type == TServerConfig.TYPE_LSERVER)
     	{
-    		server = new ConnectLServer();
-    		server.Read(reader);
+    		connectBase = new ConnectLServer();
+    		connectBase.Read(reader);
     	}
     	datas = reader.ReadToEnd();
     }
@@ -151,7 +148,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
     	
     	ProtocolStreamReader reader  = new ProtocolStreamReader(datas);
     	
-    	innerTcpReader               = new TCPBaseReader();
+    	innerTcpReader               = new LogicBaseReader();
     	innerTcpReader.ReadHeader(reader);
     	
      	int messageId                = innerTcpReader.GetMessageId();

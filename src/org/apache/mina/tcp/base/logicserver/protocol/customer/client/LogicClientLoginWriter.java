@@ -2,9 +2,10 @@ package org.apache.mina.tcp.base.logicserver.protocol.customer.client;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 
-public class LogicClientLoginWriter extends TCPBaseWriter
+public class LogicClientLoginWriter extends LogicBaseWriter
 {
 	public String token;
 	public String userName;
