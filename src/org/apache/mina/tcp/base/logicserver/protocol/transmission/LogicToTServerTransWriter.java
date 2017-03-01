@@ -1,36 +1,27 @@
 package org.apache.mina.tcp.base.logicserver.protocol.transmission;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
-import org.apache.mina.tcp.base.logicserver.LogicConfig;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 import org.apache.mina.tcp.base.struct.ConnectBase;
-import org.apache.mina.tcp.base.struct.ConnectClient;
-import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class LogicToTServerTransWriter extends TCPBaseWriter
 {
-    /*
-     * type 0 client 1 server
-     */
-    public int            type;
-    public long           id;
-    public ConnectClient  connectClient;
-    public ConnectLServer connectServer;
+
     public ConnectBase    connectBase;
-    public byte[]         datas;
+    
+    protected byte[] datas;
     
     public LogicToTServerTransWriter()
     {
     
     }
   
-    public LogicToTServerTransWriter(int type,int id,byte[] datas)
+    public LogicToTServerTransWriter(ConnectBase connectBase,byte[] datas)
     {
-    	this.type           = type;
-    	this.id             = id;
-    	this.datas          = datas;
-    	
+    	this.connectBase  = connectBase;
+    	this.datas        = datas;
     }
     
     public int GetSrcServerId()
@@ -45,16 +36,7 @@ public class LogicToTServerTransWriter extends TCPBaseWriter
     
     protected void WriteContent(ProtocolStreamWriter writer)
     {
-    	writer.WriteInt32(type);
     	connectBase.Write(writer);
-    	if(type == LogicConfig.TYPE_CLIENT)
-    	{
-    		connectClient.Write(writer);
-    	}
-    	else if(type == LogicConfig.TYPE_LSERVER)
-    	{
-    		connectServer.Write(writer);
-    	}
     	writer.WriteBytes(datas);
     }
 }

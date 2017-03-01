@@ -3,18 +3,17 @@ package org.apache.mina.tcp.base.transserver.protocol.transmission;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.struct.ConnectClient;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.struct.ConnectTServer;
-import org.apache.mina.tcp.base.struct.TransServerManager;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
+import org.apache.mina.tcp.base.transserver.TransServerManager;
 
 public class TServerToLogicTransReader extends TCPBaseReader
 {
 
-	public ConnectClient  client  = new ConnectClient();
-	public ConnectLServer lServer  = new ConnectLServer();
-	public int    type;
+	public ConnectBase   connectBase;
     public byte[] datas;
 
     
@@ -32,13 +31,9 @@ public class TServerToLogicTransReader extends TCPBaseReader
     
     public long GetId()
     {
-    	if(type == TServerConfig.TYPE_CLIENT)
+    	if(connectBase != null)
     	{
-    		return client.id;
-    	}
-    	else if(type == TServerConfig.TYPE_LSERVER)
-    	{
-    		return lServer.id;
+    		return connectBase.id;	
     	}
     	
     	return 0;
@@ -48,39 +43,31 @@ public class TServerToLogicTransReader extends TCPBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
 
-    	type = reader.ReadInt32();
-    	
-    	if(type == TServerConfig.TYPE_CLIENT)
-    	{
-    	 	client.Read(reader);
-    	}
-    	else if(type == TServerConfig.TYPE_LSERVER)
-    	{
-    		lServer.Read(reader);
-    	}
-    	datas = reader.ReadToEnd();
+    	connectBase = ConnectBase.ConnectFactory(reader);
+    	datas       = reader.ReadToEnd();
     	
     }
     
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager       = (TransServerManager)param;
+    	int type                         = connectBase.type;
     	if(type == TServerConfig.TYPE_CLIENT)
     	{
     		long id                      = GetId();
-        	ConnectClient curClient      = manager.GetClient(id);
-        	if(curClient != null && curClient.nextRoute != null)
+        	ConnectClient dstClient      = manager.GetClient(id);
+        	if(dstClient != null && dstClient.fromRoute != null)
         	{
-        		int nextServerId = curClient.nextRoute.serverId;
-        		if(nextServerId == TServerConfig.SERVER_ID)
+        		int fromServerId = dstClient.fromRoute.serverId;
+        		if(fromServerId == TServerConfig.SERVER_ID)
         		{
             		TServerToClientTransWriter cQueryResponse = new TServerToClientTransWriter(datas);
-            		curClient.session.write(cQueryResponse);
+            		dstClient.session.write(cQueryResponse);
         		}
         		else//post next transServer
         		{
-        			ConnectTServer tServer = manager.GetTServer(nextServerId);
-        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(curClient,datas);
+        			ConnectTServer tServer = manager.GetTServer(fromServerId);
+        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(dstClient,datas);
         			tServer.session.write(tServerWriter);
         			
         		}
@@ -91,19 +78,19 @@ public class TServerToLogicTransReader extends TCPBaseReader
     	else if(type == TServerConfig.TYPE_LSERVER)
     	{
     		long id                    = GetId();
-    		ConnectLServer curServer   = manager.GetLServer(id);
-    		if(curServer != null &&  curServer.nextRoute != null)
+    		ConnectLServer dstServer   = manager.GetLServer(id);
+    		if(dstServer != null &&  dstServer.fromRoute != null)
     		{
-    			long nextServerId = curServer.nextRoute.serverId;
-    			if(nextServerId == TServerConfig.SERVER_ID)
+    			long fromServerId = dstServer.fromRoute.serverId;
+    			if(fromServerId == TServerConfig.SERVER_ID)
     			{
-    				TServerToLogicTransWriter cQueryResponse = new TServerToLogicTransWriter(curServer,datas);
-        			curServer.session.write(cQueryResponse);	
+    				TServerToLogicTransWriter cQueryResponse = new TServerToLogicTransWriter(dstServer,datas);
+        			dstServer.session.write(cQueryResponse);	
     			}
     			else//post next transServer
     			{
-    				ConnectTServer tServer = manager.GetTServer(nextServerId);
-        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(curServer,datas);
+    				ConnectTServer tServer = manager.GetTServer(fromServerId);
+        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(dstServer,datas);
         			tServer.session.write(tServerWriter);
     			}
     							

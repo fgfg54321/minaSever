@@ -29,7 +29,6 @@ import org.apache.mina.example.imagine.step1.codec.ImageCodecFactory;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.tcp.base.constants.Constants;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.struct.TransServerManager;
 import org.apache.mina.tcp.base.transserver.codec.TServerCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.apache.mina.utils.PropertiesUtils;

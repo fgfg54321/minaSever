@@ -4,8 +4,8 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
-import org.apache.mina.tcp.base.struct.TransServerManager;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
+import org.apache.mina.tcp.base.transserver.TransServerManager;
 
 public class TServerDSReceiveConnectReader extends TCPBaseReader
 {

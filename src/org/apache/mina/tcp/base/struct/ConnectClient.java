@@ -10,7 +10,7 @@ public class ConnectClient extends ConnectBase
 	public String            token;
 	public String            name;
 	public Route             route;
-	public Route             nextRoute;
+	public Route             fromRoute;
 	public IoSession         session;
 	
 	public ConnectClient()
@@ -31,6 +31,6 @@ public class ConnectClient extends ConnectBase
 		id       = reader.ReadInt64();
 		token     = reader.ReadString16();
 		name  = reader.ReadString16();
-		nextRoute.Read(reader);
+		fromRoute.Read(reader);
 	}
 }

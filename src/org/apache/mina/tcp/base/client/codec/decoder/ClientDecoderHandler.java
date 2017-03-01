@@ -7,8 +7,8 @@ import org.apache.mina.tcp.base.client.protocol.connect.ClientConnectReader;
 import org.apache.mina.tcp.base.client.protocol.tick.ClientOffLineReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.struct.TransServerManager;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
+import org.apache.mina.tcp.base.transserver.TransServerManager;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffLineInfoReader;
 
 public class ClientDecoderHandler extends DecoderHandler

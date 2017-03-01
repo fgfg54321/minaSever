@@ -10,7 +10,7 @@ public class ConnectLServer extends ConnectBase
 	public String    token;
 	public String    name;
 	public Route     route;
-	public Route     nextRoute;
+	public Route     fromRoute;
 	public IoSession session;
 	
 	public void Write(ProtocolStreamWriter writer)

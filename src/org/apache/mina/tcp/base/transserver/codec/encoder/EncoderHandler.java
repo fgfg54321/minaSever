@@ -12,7 +12,7 @@ public class EncoderHandler
 	
 	public boolean Encode(TCPBaseWriter tcpWriter,IoSession session)
 	{
-		tcpWriter.Write(session);
+		tcpWriter.WriteDirectly(session);
 		return true;
 	}
 }

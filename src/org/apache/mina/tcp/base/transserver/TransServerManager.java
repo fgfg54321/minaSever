@@ -1,4 +1,4 @@
-package org.apache.mina.tcp.base.struct;
+package org.apache.mina.tcp.base.transserver;
 
 import java.net.InetSocketAddress;
 import java.util.Enumeration;
@@ -6,7 +6,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.transserver.TServerConfig;
+import org.apache.mina.tcp.base.struct.ConnectClient;
+import org.apache.mina.tcp.base.struct.ConnectLServer;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectReader;
 import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectWriter;
 import org.apache.mina.tcp.base.transserver.protocol.connect.LogicConnectReader;

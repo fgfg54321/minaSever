@@ -2,39 +2,25 @@ package org.apache.mina.tcp.base.transserver.protocol.transmission;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
-import org.apache.mina.tcp.base.struct.ConnectClient;
-import org.apache.mina.tcp.base.struct.ConnectLServer;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class TServerToLogicTransWriter extends TCPBaseWriter
 {
 	
-	public ConnectClient client;
-	public ConnectLServer server;
+	public ConnectBase   connectBase;
 	public byte[]        datas;
-	  
-	/*
-	 * type 0 client 1 server
-	 */
-	public int           type;
+	
 	
     public TServerToLogicTransWriter()
     {
     
     }
     
-    public TServerToLogicTransWriter(ConnectClient cClient,byte[] datas)
+    public TServerToLogicTransWriter(ConnectBase connectBase,byte[] datas)
     {
-    	this.client         = cClient;
+    	this.connectBase    = connectBase;
     	this.datas          = datas;
-    	this.type           = TServerConfig.TYPE_CLIENT;
-    }
-    
-    public TServerToLogicTransWriter(ConnectLServer cServer,byte[] datas)
-    {
-    	this.server         = cServer;
-    	this.datas          = datas;
-    	this.type           = TServerConfig.TYPE_LSERVER;
     }
     
     public int GetSrcServerId()
@@ -49,16 +35,7 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
     
     protected void WriteContent(ProtocolStreamWriter writer)
     {
-    	writer.WriteInt32(type);
-    	if(type == TServerConfig.TYPE_CLIENT)
-    	{
-    		client.Write(writer);
-    	}
-    	else if(type == TServerConfig.TYPE_LSERVER)
-    	{
-    		server.Write(writer);
-    	}
-
+    	connectBase.Write(writer);
 		writer.WriteBytes(datas);
     }
 	 

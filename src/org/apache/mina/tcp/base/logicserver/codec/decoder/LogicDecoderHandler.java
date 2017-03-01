@@ -7,8 +7,8 @@ import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.struct.TransServerManager;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
+import org.apache.mina.tcp.base.transserver.TransServerManager;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffLineInfoReader;
 
 public class LogicDecoderHandler extends DecoderHandler

@@ -31,7 +31,6 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.tcp.base.constants.Constants;
 import org.apache.mina.tcp.base.logicserver.codec.LogicCodecFactory;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.struct.LogicConnectManager;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.apache.mina.utils.PropertiesUtils;
 
@@ -43,9 +42,9 @@ public class LogicTcpServer extends IoHandlerAdapter
  
     public IoSession session;
     
-    public LogicConnectManager connectManager = new LogicConnectManager();
+    public LogicServerManager connectManager = new LogicServerManager();
     
-    public void Start(LogicConnectManager connectManager)
+    public void Start(LogicServerManager connectManager)
     {
     	try
 		{

@@ -12,8 +12,6 @@ import org.apache.mina.tcp.base.logicserver.protocol.handler.LogicReaderHandler;
 import org.apache.mina.tcp.base.stream.SplitPackage;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectBase;
-import org.apache.mina.tcp.base.struct.ConnectClient;
-import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.utils.SVZipUtils;
 
@@ -71,18 +69,8 @@ public class LogicToTServerTransReader extends TCPBaseReader
     @Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
-    	type = reader.ReadInt32();
-    	if(type == TServerConfig.TYPE_CLIENT)
-    	{
-    		connectBase = new ConnectClient();
-    		connectBase.Read(reader);
-    	}
-    	else if(type == TServerConfig.TYPE_LSERVER)
-    	{
-    		connectBase = new ConnectLServer();
-    		connectBase.Read(reader);
-    	}
-    	datas = reader.ReadToEnd();
+    	connectBase = ConnectBase.ConnectFactory(reader);
+    	datas       = reader.ReadToEnd();
     }
     
     @Override

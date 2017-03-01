@@ -1,6 +1,7 @@
 package org.apache.mina.tcp.base.stream;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
@@ -79,6 +80,12 @@ public class TCPBaseWriter
     	WriteContent(writer);
     	Send(session);
     }
+    
+    public void WriteDirectly(IoSession session)
+    {
+    	WriteContent(writer);
+    	SendDirectly(session);
+    }
  
     public void Send(IoSession session)
     {
@@ -108,12 +115,63 @@ public class TCPBaseWriter
 	    }
     }
     
-    public void OnRequest()
+    public void SendDirectly(IoSession session)
     {
-        if(onRequestEvent != null)
-        {
-        	onRequestEvent.Invoke(this);
-        }
+    	uniqueId                           = GetUniqueId();
+    	isGZip                             = false;
+	    sliceSize                          = 1;
+	    sliceIndex                         = 0;
+	    
+        ProtocolStreamWriter sliceWriter = new ProtocolStreamWriter();
+        
+        WriteHeader(sliceWriter);
+        byte[] datas = writer.GetBuffer();
+        sliceWriter.WriteBytes(datas);
+        
+        int len           = sliceWriter.GetLength();
+        IoBuffer ioBuffer = IoBuffer.allocate(len + 4);
+        ioBuffer.putInt(len);
+        byte[] buffers    = sliceWriter.GetBuffer();
+        ioBuffer.put(buffers);
+        ioBuffer.flip();
+        
+        session.write(ioBuffer);
+	  
+    }
+    
+    public List<byte[]> GetSendBuffer()
+    {
+    	List<byte[]> sendBuffer       = new ArrayList<byte[]>();
+    	
+    	List<byte[]> datasList        = new ArrayList<byte[]>();
+    	uniqueId                      = GetUniqueId();
+    	isGZip                        = writer.GZipOrSplitBytes(datasList);
+	    sliceSize                     = datasList.size();
+	 
+	    for(int i = 0 ; i < sliceSize; i++)
+	    {
+	        byte[] datas = datasList.get(i);
+	
+	        ProtocolStreamWriter sliceWriter = new ProtocolStreamWriter();
+	        sliceIndex = i;
+	        WriteHeader(sliceWriter);
+	        
+	        sliceWriter.WriteBytes(datas);
+	        int len   = sliceWriter.GetLength();
+	
+	        IoBuffer ioBuffer = IoBuffer.allocate(len + 4);
+	        ioBuffer.putInt(len);
+	        byte[] buffers    = sliceWriter.GetBuffer();
+	        sendBuffer.add(buffers);
+	    }
+	    datasList.clear();
+	    
+	    return sendBuffer;
+    }
+    
+    public void  OnWriter(IoSession session,Object param)
+    {
+    	
     }
 
 }
