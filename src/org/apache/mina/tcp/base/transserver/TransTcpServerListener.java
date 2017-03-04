@@ -37,7 +37,8 @@ public class TransTcpServerListener extends IoHandlerAdapter
 {
 	
 	public static int    clientListenPort;
-	public static int    serverListenPort;
+	public static int    logicServerListenPort;
+	public static int    transServerListenPort;
     public static String ipAddress;
     
 	public TransServerManager connectManager;
@@ -51,10 +52,11 @@ public class TransTcpServerListener extends IoHandlerAdapter
 			
     		Map<String, String> map = PropertiesUtils.LoadProperties(Constants.TRANS_SERVER_CONFIG);
 			
-			ipAddress        = map.get("ip");
-			clientListenPort = Integer.parseInt(map.get("client_port"));
-			serverListenPort = Integer.parseInt(map.get("server_port"));
-
+			ipAddress             = map.get("ip");
+			clientListenPort      = Integer.parseInt(map.get("client_port"));
+			logicServerListenPort = Integer.parseInt(map.get("logic_server_port"));
+			transServerListenPort = Integer.parseInt(map.get("trans_server_port"));
+			
 			NioSocketAcceptor acceptor = new NioSocketAcceptor();
 			
 	        acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new TServerCodecFactory()));
@@ -63,13 +65,14 @@ public class TransTcpServerListener extends IoHandlerAdapter
 			
 			Set<InetSocketAddress> addresses = new HashSet<InetSocketAddress>();
 			addresses.add(new InetSocketAddress(ipAddress, clientListenPort));
-			addresses.add(new InetSocketAddress(ipAddress, serverListenPort));
+			addresses.add(new InetSocketAddress(ipAddress, logicServerListenPort));
+			addresses.add(new InetSocketAddress(ipAddress, transServerListenPort));
 			acceptor.bind(addresses);
 			
 		} 
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
     }
     

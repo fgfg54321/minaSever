@@ -53,7 +53,7 @@ public class TransTcpServerConnector extends IoHandlerAdapter
 			int serverId = 0;
 			String serverName = "";
 			ipAddress          = map.get("ip");
-			port               = Integer.parseInt(map.get("clientPort"));
+			port               = Integer.parseInt(map.get("transPort"));
 
 			
 		

@@ -31,6 +31,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.tcp.base.constants.Constants;
 import org.apache.mina.tcp.base.logicserver.codec.LogicCodecFactory;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.apache.mina.utils.PropertiesUtils;
 
@@ -68,7 +69,10 @@ public class LogicTcpServer extends IoHandlerAdapter
 
 	        int transServerId = 0;
 	        session = connFuture.getSession();
-	        connectManager.ConnectTServer(session,transServerId);
+	        ConnectTServer tServer = new ConnectTServer();
+	        tServer.id     = transServerId;
+	        //tServer.token  = token;
+	        connectManager.ConnectTServer(session,tServer);
     	        
 		} 
 		catch (Exception e)

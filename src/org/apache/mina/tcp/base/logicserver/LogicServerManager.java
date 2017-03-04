@@ -150,15 +150,8 @@ public class LogicServerManager
 			ConnectTServer tServer   = connectTServerDic.get(routeId);
 			IoSession session        = tServer.session;
 			
-			logicWriter.Write();
-			List<byte[]> sendBuffer  = logicWriter.GetSendBuffer();
-			for(int i = 0; i < sendBuffer.size();i++)
-			{
-				byte[] datas = sendBuffer.get(i);
-				LogicToTServerTransWriter transWriter = new LogicToTServerTransWriter(client,datas);
-				session.write(transWriter);
-			}
-			
+			logicWriter.SetConnectInfo(client);
+			session.write(logicWriter);
 		}
 	}
 	

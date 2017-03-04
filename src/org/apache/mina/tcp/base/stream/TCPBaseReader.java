@@ -7,6 +7,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.log.MLog;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.stream.ProtocolStreamWriter;
+import org.apache.mina.utils.Action;
 import org.apache.mina.utils.SVZipUtils;
 
 public class TCPBaseReader
@@ -21,6 +22,7 @@ public class TCPBaseReader
 	public SplitPackage       splitData;
 	public ConcurrentHashMap<Integer, SplitPackage> splitDataDic = new ConcurrentHashMap<Integer, SplitPackage>();
 
+	public Action<TCPBaseReader> onReaderAction;
 
 	public long GetUniqueId()
     {

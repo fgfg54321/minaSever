@@ -175,19 +175,19 @@ public class TransServerManager
 	{
 		InetSocketAddress socketAdress = (InetSocketAddress)session.getLocalAddress();
     	int port                       = socketAdress.getPort();
-    	if(port == TServerConfig.LSEVER_PORT)
+    	if(port == TransTcpServerListener.logicServerListenPort)
     	{
 			session.setAttribute(TYPE_BELONG, TYPE_LSERVER);
 			
 			return true;
     	}
-    	else if(port == TServerConfig.CLIENT_PORT)
+    	else if(port == TransTcpServerListener.clientListenPort)
     	{
     		session.setAttribute(TYPE_BELONG, TYPE_CLIENT);
     		
     		return true;
     	}
-    	else if(port == TServerConfig.TSEVER_PORT)
+    	else if(port == TransTcpServerListener.transServerListenPort)
     	{
     		session.setAttribute(TYPE_BELONG, TYPE_TSERVER);
     		

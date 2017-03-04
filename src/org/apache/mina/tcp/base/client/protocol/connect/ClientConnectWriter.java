@@ -1,6 +1,5 @@
 package org.apache.mina.tcp.base.client.protocol.connect;
 
-import org.apache.mina.client.Config;
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.client.ClientConfig;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;

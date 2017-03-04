@@ -2,10 +2,6 @@ package org.apache.mina.tcp.base.transserver;
 
 public class TServerConfig
 {
-	public static final int TSEVER_PORT      = 1234;
-	public static final int LSEVER_PORT      = 1235;
-	public static final int CLIENT_PORT      = 1236;
-	
 	public static final int CLIENT          = 0xffffffff;
 	public static final int SERVER_ID       = 0x00000000;
 	

@@ -1,5 +1,6 @@
 package org.apache.mina.utils;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -16,7 +17,7 @@ public class PropertiesUtils
 		try
 		{
 			Properties prop = new Properties();
-			InputStream in = Object.class.getResourceAsStream(pathFile);
+			InputStream in = new FileInputStream(pathFile);
 			prop.load(in);
 			for (Enumeration e = prop.propertyNames(); e.hasMoreElements();)
 			{

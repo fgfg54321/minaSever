@@ -1,5 +1,6 @@
 package org.apache.mina.tcp.base.client.protocol.custom;
 
+import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.client.ClientConfig;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
@@ -22,6 +23,11 @@ public class LogicLoginReader extends TCPBaseReader
     	String result  = reader.ReadString16();
     	int errorCode  = reader.ReadInt32();
     	String message = reader.ReadString16();
+    }
+    
+    public void  OnReader(IoSession session,Object param)
+    {
+    	
     }
     
 }
