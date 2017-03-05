@@ -11,6 +11,6 @@ public class TransMain
 	public static void main(String[] args) throws IOException 
     {
 		transTcpServerListener.Start(transServerManager);
-		transServerConnector.Start(transServerManager);
+		//transServerConnector.Start(transServerManager);
     }
 }

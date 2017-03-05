@@ -2,6 +2,7 @@ package org.apache.mina.log;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class MLog
 {
@@ -9,7 +10,9 @@ public class MLog
 	
 	static
 	{
-		BasicConfigurator.configure();
+		//BasicConfigurator.configure();
+		PropertyConfigurator.configure( "config/log4j.properties");
+		
 	}
 	
 	public static void Debug(String format,Object... message)

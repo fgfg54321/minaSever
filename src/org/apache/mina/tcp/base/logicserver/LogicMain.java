@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class LogicMain
 {
-	public static LogicServerManager connectManager;
+	public static LogicServerManager connectManager = new LogicServerManager();
 	
     public static LogicTcpServer loginTcpServer = new LogicTcpServer();
     

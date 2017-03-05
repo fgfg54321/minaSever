@@ -2,14 +2,13 @@ package org.apache.mina.tcp.base.transserver.protocol.connect;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class TServerDSSendConnectWriter extends TCPBaseWriter
 {
-	public String token;
-	public String userName;
-	public long   serverId;
-    
+	public  ConnectTServer tranServer;
+	
     @Override
     public int GetSrcServerId()
     {
@@ -25,9 +24,7 @@ public class TServerDSSendConnectWriter extends TCPBaseWriter
     @Override
     protected void WriteContent(ProtocolStreamWriter writer)
     {
-    	writer.WriteString16(token);
-    	writer.WriteString16(userName);
-    	writer.WriteInt64(serverId);
+    	tranServer.Write(writer);
     }
 }
 

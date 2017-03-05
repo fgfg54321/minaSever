@@ -14,7 +14,6 @@ public class TServerDSSendConnectReader extends TCPBaseReader
     public int     errorCode;
     public String  message;
     
-
 	public ConnectTServer connectServer = new ConnectTServer();
 	  
 	@Override

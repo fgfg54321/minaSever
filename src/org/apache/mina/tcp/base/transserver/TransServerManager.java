@@ -13,10 +13,11 @@ import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectReader
 import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectWriter;
 import org.apache.mina.tcp.base.transserver.protocol.connect.LogicConnectReader;
 import org.apache.mina.tcp.base.transserver.protocol.connect.LogicConnectWriter;
+import org.apache.mina.tcp.base.transserver.protocol.connect.TServerDSReceiveConnectWriter;
 import org.apache.mina.tcp.base.transserver.protocol.connect.TServerDSSendConnectReader;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeClientOffLineWriter;
-import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeTServerDsOffLineWriter;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffLineInfoWriter;
+import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeTServerDsOffLineWriter;
 
 public class TransServerManager
 {
@@ -41,6 +42,15 @@ public class TransServerManager
 	
 	public ConnectTServer transTServerConnect;
 	
+	public ConnectTServer self = new ConnectTServer();
+	
+	public TransServerManager()
+	{
+		self.id    = TServerConfig.SERVER_ID;
+		self.name  = "1";
+		self.token = "";
+	}
+	
 	public boolean Login(IoSession session,TCPBaseReader tcpRequest)
 	{
 		if(tcpRequest.GetMessageId() != TServerConfig.MESSAGE_LOGIN)
@@ -63,7 +73,7 @@ public class TransServerManager
 			}
 			else
 			{
-				LogicConnectWriter loginResponse = new LogicConnectWriter();
+				TServerDSReceiveConnectWriter loginResponse = new TServerDSReceiveConnectWriter(self);
 				session.write(loginResponse);
 				transServerConnectMap.put(srcServerId, server);
 			}
@@ -73,7 +83,7 @@ public class TransServerManager
     	else if(IsLServer(session))
     	{
     		LogicConnectReader serverLogin = (LogicConnectReader)tcpRequest;
-			ConnectLServer server           = serverLogin.connectServer;
+			ConnectLServer server           = serverLogin.logicServer;
 			session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
 			long srcServerId               =  server.id;
 			session.setAttribute(TYPE_ID, srcServerId);
@@ -84,7 +94,7 @@ public class TransServerManager
 			}
 			else
 			{
-				LogicConnectWriter loginResponse = new LogicConnectWriter();
+				LogicConnectWriter loginResponse = new LogicConnectWriter(self);
 				session.write(loginResponse);
 				logicServerConnectMap.put(srcServerId, server);
 			}

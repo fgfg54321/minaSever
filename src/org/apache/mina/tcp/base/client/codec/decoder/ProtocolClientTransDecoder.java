@@ -25,7 +25,7 @@ public class ProtocolClientTransDecoder extends CumulativeProtocolDecoder
 	  if(available > 4)
 	  {
 	  	int len = in.getInt();
-	  	if(len > in.remaining())
+	  	if(len >= available - 4)
 	  	{
 	  		byte[] dataBytes                = new byte[len];
 	        in.get(dataBytes);

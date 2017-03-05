@@ -21,7 +21,6 @@ public class ConnectBase
 		writer.WriteInt64(id);
 		writer.WriteString16(token);
 		writer.WriteString16(name);
-		route.Write(writer);
 	}
 	
 	protected void Read(ProtocolStreamReader reader)
@@ -29,7 +28,6 @@ public class ConnectBase
 		id       = reader.ReadInt64();
 		token    = reader.ReadString16();
 		name     = reader.ReadString16();
-		fromRoute.Read(reader);
 	}
 	
 	public static ConnectBase ConnectFactory(ProtocolStreamReader reader)

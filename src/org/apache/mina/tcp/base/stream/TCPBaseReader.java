@@ -18,6 +18,7 @@ public class TCPBaseReader
 	protected int     messageId;
 	protected boolean gzip;
 	protected int     sliceSize;
+	protected int     sliceIndex;
 
 	public SplitPackage       splitData;
 	public ConcurrentHashMap<Integer, SplitPackage> splitDataDic = new ConcurrentHashMap<Integer, SplitPackage>();
@@ -54,7 +55,7 @@ public class TCPBaseReader
         srcServerId         = reader.ReadInt32();
         dstServerId         = reader.ReadInt32();
         messageId           = reader.ReadInt32();   
-        uniqueId            = reader.ReadInt32();
+        uniqueId            = reader.ReadInt64();
         gzip                = reader.ReadBoolean();
         sliceSize           = reader.ReadInt32();
     }

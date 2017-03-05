@@ -58,7 +58,7 @@ public class TServerToTServerTransReader extends TCPBaseReader
         	ConnectClient dstClient      = manager.GetClient(id);
         	if(dstClient != null && dstClient.fromRoute != null)
         	{
-        		int fromServerId = dstClient.fromRoute.serverId;
+        		long fromServerId = dstClient.fromRoute.id;
         		if(fromServerId == TServerConfig.SERVER_ID)
         		{
             		TServerToClientTransWriter cQueryResponse = new TServerToClientTransWriter(datas);
@@ -81,7 +81,7 @@ public class TServerToTServerTransReader extends TCPBaseReader
     		ConnectLServer dstServer   = manager.GetLServer(id);
     		if(dstServer != null &&  dstServer.fromRoute != null)
     		{
-    			long fromServerId = dstServer.fromRoute.serverId;
+    			long fromServerId = dstServer.fromRoute.id;
     			if(fromServerId == TServerConfig.SERVER_ID)
     			{
     				TServerToLogicTransWriter cQueryResponse = new TServerToLogicTransWriter(dstServer,datas);

@@ -1,6 +1,7 @@
 package org.apache.mina.tcp.base.transserver.codec.decoder;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
@@ -18,7 +19,8 @@ public class ClientDecoderHandler extends DecoderHandler
 		return isClient;
 	}
 	
-	public boolean Decode(ProtocolStreamReader reader,IoSession session)
+	@Override
+	public boolean Decode(ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)
 	{
 	
     	TCPBaseReader tcpReader        = new TCPBaseReader();

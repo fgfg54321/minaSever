@@ -10,11 +10,7 @@ import org.apache.mina.tcp.base.transserver.TransServerManager;
 public class LogicConnectReader extends TCPBaseReader
 {
 	
-	public String token;
-	public String userName;
-	public long   uid;
-	
-	public ConnectLServer connectServer = new ConnectLServer();
+	public ConnectLServer logicServer = new ConnectLServer();
   
 	@Override
 	public int GetSrcServerId()
@@ -31,9 +27,7 @@ public class LogicConnectReader extends TCPBaseReader
 	@Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
-    	token    = reader.ReadString16();
-    	userName = reader.ReadString16();
-    	uid      = reader.ReadInt64();
+		logicServer.Read(reader);
     }
     
 	@Override

@@ -7,9 +7,9 @@ import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 
 public class LogicClientLoginWriter extends LogicBaseWriter
 {
-	public String token;
-	public String userName;
-	public long   uid;
+	public String result;
+	public int    errorCode;
+	public long   message;
     
 	public int GetDstServerId()
     {

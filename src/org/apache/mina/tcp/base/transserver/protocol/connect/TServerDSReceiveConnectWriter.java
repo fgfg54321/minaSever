@@ -2,6 +2,7 @@ package org.apache.mina.tcp.base.transserver.protocol.connect;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class TServerDSReceiveConnectWriter extends TCPBaseWriter
@@ -9,7 +10,13 @@ public class TServerDSReceiveConnectWriter extends TCPBaseWriter
     public boolean result;
     public int     errorCode;
     public String  message;
+
+    public  ConnectTServer tranServer;
     
+    public TServerDSReceiveConnectWriter(ConnectTServer tranServer)
+    {
+    	this.tranServer = tranServer;
+    }
     
     @Override
     public int GetSrcServerId()
@@ -29,6 +36,7 @@ public class TServerDSReceiveConnectWriter extends TCPBaseWriter
     	writer.WriteBoolean(result);
     	writer.WriteInt32(errorCode);
     	writer.WriteString16(message);
+    	tranServer.Write(writer);
     }
 }
 

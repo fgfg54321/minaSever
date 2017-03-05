@@ -1,12 +1,11 @@
 package org.apache.mina.tcp.base.logicserver;
 
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.tcp.base.logicserver.protocol.connect.TServerConnectWriter;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.logicserver.protocol.tick.LogicReceiveTServerOffLineInfoWriter;
-import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransWriter;
 import org.apache.mina.tcp.base.struct.ConnectClient;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.struct.ConnectTServer;
@@ -22,6 +21,14 @@ public class LogicServerManager
 	public ConcurrentHashMap<Long,ConnectLServer>  lServerInfoDic    = new ConcurrentHashMap<Long,ConnectLServer>();
 	public ConcurrentHashMap<Long,ConnectClient>   clientInfoDic     = new ConcurrentHashMap<Long,ConnectClient>();
 	
+	public ConnectLServer self = new ConnectLServer();
+	
+	public LogicServerManager()
+	{
+		self.id    = LogicConfig.SERVER_ID;
+		self.name  = "L";
+		self.token = "ll";
+	}
 	
 	public void ClientLogin(ConnectClient clientInfo)
 	{
@@ -52,7 +59,7 @@ public class LogicServerManager
 		clientInfo.id            = id;
 		
 		Route route              = clientInfo.fromRoute;
-		int routeId              = route.serverId;
+		long routeId             = route.id;
 		ConnectTServer tServer   = connectTServerDic.get(routeId);
 		IoSession session        = tServer.session;
 		
@@ -89,7 +96,7 @@ public class LogicServerManager
 	{
 		ConnectLServer serverInfo  = lServerInfoDic.get(serverId);
 		Route route                = serverInfo.fromRoute;
-		long routeId               = route.serverId;
+		long routeId               = route.id;
 		ConnectTServer tServer     = connectTServerDic.get(routeId);
 		IoSession session          = tServer.session;
 		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter();
@@ -98,6 +105,12 @@ public class LogicServerManager
 		session.write(offLineInfo);
 	}
 	
+
+	public void SendConnectRequest(IoSession session)
+	{
+		TServerConnectWriter connectWriter = new TServerConnectWriter(self);
+		connectWriter.WriteDirectly(session);
+	}
 	
 	public void ConnectTServer(IoSession session,ConnectTServer tServer)
 	{
@@ -146,7 +159,7 @@ public class LogicServerManager
 		{
 			ConnectClient client     = clientInfoDic.get(id);
 			Route route              = client.fromRoute;
-			int routeId              = route.serverId;
+			long routeId             = route.id;
 			ConnectTServer tServer   = connectTServerDic.get(routeId);
 			IoSession session        = tServer.session;
 			

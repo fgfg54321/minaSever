@@ -45,6 +45,7 @@ public class TransServerDecoderHandler extends DecoderHandler
 	     			{
 	     				tcpReader = new TServerReceiveTServerDSOffLineReader();
 	     				tcpReader.Read(reader,session);
+	     				
 	     				break;
 	     			}
  				

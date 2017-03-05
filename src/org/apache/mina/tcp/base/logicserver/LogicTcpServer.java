@@ -53,8 +53,8 @@ public class LogicTcpServer extends IoHandlerAdapter
     		
 			Map<String, String> map = PropertiesUtils.LoadProperties(Constants.LOGIC_SERVER_CONFIG);
 			
-			transServerIpAddress    = map.get("trans_server_ip");
-			transServerListenPort   = Integer.parseInt(map.get("trans_server_port"));
+			transServerIpAddress    = map.get("server_ip");
+			transServerListenPort   = Integer.parseInt(map.get("server_port"));
 
     		NioSocketConnector connector = new NioSocketConnector();
     		connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new LogicCodecFactory()));
@@ -67,17 +67,16 @@ public class LogicTcpServer extends IoHandlerAdapter
 
 	        connFuture.awaitUninterruptibly();
 
-	        int transServerId = 0;
 	        session = connFuture.getSession();
-	        ConnectTServer tServer = new ConnectTServer();
-	        tServer.id     = transServerId;
-	        //tServer.token  = token;
-	        connectManager.ConnectTServer(session,tServer);
-    	        
+	        
+	        
+	        connectManager.SendConnectRequest(session);
+		      
+	       
 		} 
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
     }
     
@@ -89,7 +88,7 @@ public class LogicTcpServer extends IoHandlerAdapter
 	@Override
     public void sessionOpened(IoSession session) throws Exception
     {
-		
+		  
     }
 	
 	public void sessionClosed(IoSession session) throws Exception

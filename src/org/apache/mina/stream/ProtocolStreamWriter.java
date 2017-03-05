@@ -9,8 +9,8 @@ import org.apache.mina.utils.SVZipUtils.CompressionMode;
 
 public class ProtocolStreamWriter
 {
-	public static int GZIP_LIMITSIZE  = 1024;
-    public static int SPLIT_LIMITSIZE = 2 * 100;
+	public static int GZIP_LIMITSIZE  = 10*1024;
+    public static int SPLIT_LIMITSIZE = 100*1024;
 
 	private ByteArrayOutputStream writer;
 

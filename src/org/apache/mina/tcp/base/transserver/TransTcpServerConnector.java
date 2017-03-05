@@ -71,7 +71,7 @@ public class TransTcpServerConnector extends IoHandlerAdapter
 		} 
 		catch (Exception e)
 		{
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
     }
     

@@ -28,7 +28,7 @@ public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 	  if(available > 4)
 	  {
 	  	int len = in.getInt();
-	  	if(len > in.remaining())
+	  	if(len >= available - 4)
 	  	{
 	  		byte[] dataBytes                = new byte[len];
 	        in.get(dataBytes);
@@ -40,7 +40,7 @@ public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 		        	DecoderHandler handler = hanlderList.get(i);
 		        	if(handler.IsMeet(session))
 		        	{
-		        		handler.Decode(reader, session);
+		        		handler.Decode(reader, session,out);
 		        	}
 	        	}
 	        	catch(Exception e)

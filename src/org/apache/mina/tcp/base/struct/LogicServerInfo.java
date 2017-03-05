@@ -9,7 +9,6 @@ public class LogicServerInfo
 	public String         token;
 	public Integer        route;
 	
-	
 	public void Logout(IoSession session)
 	{
 		
