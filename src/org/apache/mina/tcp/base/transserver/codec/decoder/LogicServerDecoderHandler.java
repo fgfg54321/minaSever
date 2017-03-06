@@ -3,6 +3,7 @@ package org.apache.mina.tcp.base.transserver.codec.decoder;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.handler.DecoderHandler;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
@@ -37,14 +38,14 @@ public class LogicServerDecoderHandler extends DecoderHandler
  					case TServerConfig.MESSAGE_LOGIN:
 					{
 	 					tcpReader = new LogicConnectReader();
-	     				tcpReader.Read(reader,session);
+	     				tcpReader.Read(reader,session,out);
 	     				
 	     				break;
 	     			}
  					case TServerConfig.MESSAGE_OFFLINE:
 	     			{
 	     				tcpReader = new TServerNoticeLogicOffLineInfoReader();
-	     				tcpReader.Read(reader,session);
+	     				tcpReader.Read(reader,session,out);
 	     				
 	     				break;
 	     			}
@@ -58,7 +59,7 @@ public class LogicServerDecoderHandler extends DecoderHandler
      			case TServerConfig.MESSAGE_TRANS:
      			{
      				tcpReader = new TServerToLogicTransReader();
-     				tcpReader.Read(reader,session);
+     				tcpReader.Read(reader,session,out);
      				
      				break;
      			}

@@ -2,16 +2,15 @@ package org.apache.mina.tcp.base.logicserver.protocol.connect;
 
 import org.apache.mina.client.Config;
 import org.apache.mina.stream.ProtocolStreamWriter;
-import org.apache.mina.tcp.base.stream.TCPBaseWriter;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 
-public class TServerConnectWriter extends TCPBaseWriter
+public class TServerConnectWriter extends LogicBaseWriter
 {
-	public ConnectLServer logicServer;
     
 	public TServerConnectWriter(ConnectLServer logicServer)
 	{
-		this.logicServer = logicServer;
+		this.connectInfo = logicServer;
 	}
 	
 	public int GetDstServerId()
@@ -26,7 +25,7 @@ public class TServerConnectWriter extends TCPBaseWriter
     
     protected void WriteContent(ProtocolStreamWriter writer)
     {
-    	logicServer.Write(writer);
+    	connectInfo.Write(writer);
     }
 	
 }

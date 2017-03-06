@@ -1,6 +1,7 @@
-package org.apache.mina.tcp.base.logicserver.codec.decoder;
+package org.apache.mina.tcp.base.handler;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 
 public class DecoderHandler
@@ -11,7 +12,7 @@ public class DecoderHandler
 		return true;
 	}
 	
-	public boolean Decode(ProtocolStreamReader reader,IoSession session)
+	public boolean Decode(ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)
 	{
 		return true;
 	}

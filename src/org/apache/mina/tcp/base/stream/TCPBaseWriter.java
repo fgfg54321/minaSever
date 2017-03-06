@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.utils.Action;
 
@@ -75,23 +76,23 @@ public class TCPBaseWriter
     	WriteContent(writer);
     }
     
-    public void Write(IoSession session)
+    public void Write(IoSession session, ProtocolEncoderOutput output)
     {
     	WriteContent(writer);
-    	Send(session);
+    	Send(session,output);
     }
     
-    public void WriteDirectly(IoSession session)
+    public void WriteDirectly(IoSession session,ProtocolEncoderOutput output)
     {
     	WriteContent(writer);
-    	SendDirectly(session);
+    	SendDirectly(session,output);
     }
     
-    public List<byte[]> GenerateSendBuffer()
+    public List<IoBuffer> GenerateSendBuffer()
     {
     	WriteContent(writer);
     	
-    	List<byte[]> sendBuffer       = new ArrayList<byte[]>();
+    	List<IoBuffer> sendBuffer       = new ArrayList<IoBuffer>();
     	
     	List<byte[]> datasList        = new ArrayList<byte[]>();
     	uniqueId                      = GetUniqueId();
@@ -103,16 +104,18 @@ public class TCPBaseWriter
 	        byte[] datas = datasList.get(i);
 	
 	        ProtocolStreamWriter sliceWriter = new ProtocolStreamWriter();
-	        sliceIndex = i;
+	        sliceIndex         = i;
 	        WriteHeader(sliceWriter);
 	        
 	        sliceWriter.WriteBytes(datas);
-	        int len   = sliceWriter.GetLength();
-	
+	        int len           = sliceWriter.GetLength();
+	        byte[] buffers    = sliceWriter.GetBuffer();
+	        
 	        IoBuffer ioBuffer = IoBuffer.allocate(len + 4);
 	        ioBuffer.putInt(len);
-	        byte[] buffers    = sliceWriter.GetBuffer();
-	        sendBuffer.add(buffers);
+	        ioBuffer.put(buffers);
+	        ioBuffer.flip();
+	        sendBuffer.add(ioBuffer);
 	    }
 	    
 	    datasList.clear();
@@ -120,7 +123,7 @@ public class TCPBaseWriter
 	    return sendBuffer;
     }
  
-    public void Send(IoSession session)
+    public void Send(IoSession session, ProtocolEncoderOutput output)
     {
     	ArrayList<byte[]> datasList        = new ArrayList<byte[]>();
     	uniqueId                           = GetUniqueId();
@@ -144,11 +147,11 @@ public class TCPBaseWriter
 	        ioBuffer.put(buffers);
 	        ioBuffer.flip();
 	        
-	        session.write(ioBuffer);
+	        output.write(ioBuffer);
 	    }
     }
     
-    protected void SendDirectly(IoSession session)
+    protected void SendDirectly(IoSession session,ProtocolEncoderOutput output)
     {
     	uniqueId                           = GetUniqueId();
     	isGZip                             = false;
@@ -168,11 +171,10 @@ public class TCPBaseWriter
         ioBuffer.put(buffers);
         ioBuffer.flip();
         
-        session.write(ioBuffer);
-	  
+        output.write(ioBuffer);
     }
     
-    public void  OnWriter(IoSession session,Object param)
+    public void  OnWriter(IoSession session,ProtocolEncoderOutput output,Object param)
     {
     	
     }

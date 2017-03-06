@@ -3,6 +3,7 @@ package org.apache.mina.tcp.base.logicserver;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.apache.mina.tcp.base.logicserver.protocol.connect.TServerConnectWriter;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.logicserver.protocol.tick.LogicReceiveTServerOffLineInfoWriter;
@@ -109,7 +110,7 @@ public class LogicServerManager
 	public void SendConnectRequest(IoSession session)
 	{
 		TServerConnectWriter connectWriter = new TServerConnectWriter(self);
-		connectWriter.WriteDirectly(session);
+		session.write(connectWriter);
 	}
 	
 	public void ConnectTServer(IoSession session,ConnectTServer tServer)

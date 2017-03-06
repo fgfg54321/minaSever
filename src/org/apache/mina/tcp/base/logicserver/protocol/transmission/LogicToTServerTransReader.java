@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.log.MLog;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.stream.ProtocolStreamWriter;
@@ -74,7 +75,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
     }
     
     @Override
-    public boolean Combine(TCPBaseReader tReader,IoSession session)
+    public boolean Combine(TCPBaseReader tReader,IoSession session,ProtocolDecoderOutput out)
     {
     	LogicToTServerTransReader transTcpReader = (LogicToTServerTransReader)tReader;
     	 TCPBaseReader tcpReader  = transTcpReader.innerTcpReader;
@@ -120,7 +121,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
 		         innerTcpReader.Dispose();
 		         
 		         ProtocolStreamReader allReader = new ProtocolStreamReader(datas);
-		         innerTcpReader.Read(allReader, session);
+		         innerTcpReader.Read(allReader, session,out);
 		         
 		         return true;
 		     }
@@ -130,9 +131,9 @@ public class LogicToTServerTransReader extends TCPBaseReader
     }
     
     @Override
-    public boolean Read(ProtocolStreamReader spuerReader,IoSession session)
+    public boolean Read(ProtocolStreamReader spuerReader,IoSession session,ProtocolDecoderOutput out)
     {
-    	super.Read(spuerReader,session);
+    	super.Read(spuerReader,session,out);
     	
     	ProtocolStreamReader reader  = new ProtocolStreamReader(datas);
     	
@@ -142,7 +143,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
      	int messageId                = innerTcpReader.GetMessageId();
 
      	reader.Reset();
-		if(readerHandler.ReaderHander(this, messageId, reader, session))
+		if(readerHandler.ReaderHander(this, messageId, reader, session,out))
 		{
 			return false;
 		}

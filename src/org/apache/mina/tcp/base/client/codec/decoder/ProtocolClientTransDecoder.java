@@ -8,6 +8,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.handler.DecoderHandler;
 
 public class ProtocolClientTransDecoder extends CumulativeProtocolDecoder
 {
@@ -35,7 +36,7 @@ public class ProtocolClientTransDecoder extends CumulativeProtocolDecoder
 	        	DecoderHandler handler = hanlderList.get(i);
 	        	if(handler.IsMeet(session))
 	        	{
-	        		handler.Decode(reader, session);
+	        		handler.Decode(reader, session,out);
 	        	}
 	        }
 	        

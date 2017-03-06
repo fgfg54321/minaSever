@@ -4,17 +4,16 @@ import org.apache.mina.client.Config;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicServerManager;
-import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.struct.ConnectTServer;
 
-public class TServerConnectReader extends TCPBaseReader
+public class TServerConnectReader extends LogicBaseReader
 {
 	public boolean result;
     public int     errorCode;
     public String  message;
     
-	public ConnectTServer tranServer = new ConnectTServer();
-
 	public int GetDstServerId()
     {
     	return Config.LOGIN_SERVER;
@@ -27,13 +26,13 @@ public class TServerConnectReader extends TCPBaseReader
     
     public  void ReadContent(ProtocolStreamReader reader)
     {
-    	tranServer.Read(reader);
+    	connectInfo = ConnectBase.ConnectFactory(reader);
     }
     
     public void  OnReader(IoSession session,Object param)
     {
     	LogicServerManager manager = (LogicServerManager)param;
-    	manager.ConnectTServer(session,tranServer);
+    	manager.ConnectTServer(session,(ConnectTServer)connectInfo);
     }
 }
 

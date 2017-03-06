@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.log.MLog;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.stream.ProtocolStreamWriter;
@@ -77,7 +78,7 @@ public class TCPBaseReader
         return splitDataDic.size() == sliceSize;
     }
     
-    public boolean Combine(TCPBaseReader tcpReader,IoSession session)
+    public boolean Combine(TCPBaseReader tcpReader,IoSession session,ProtocolDecoderOutput out)
     {
 		 long uId = tcpReader.GetUniqueId();
 		 if(uId == uniqueId)
@@ -133,7 +134,7 @@ public class TCPBaseReader
 		         
 		         ProtocolStreamReader allReader = new ProtocolStreamReader(datas);
 		         ReadContent(allReader);
-		         session.write(this);
+		         out.write(this);
 		         
 		         return true;
 		     }
@@ -143,7 +144,7 @@ public class TCPBaseReader
 	     return false;
     }
      
-    public boolean Read(ProtocolStreamReader reader,IoSession ioSession)
+    public boolean Read(ProtocolStreamReader reader,IoSession ioSession,ProtocolDecoderOutput out)
     {
     	ReadHeader(reader);
     	
@@ -191,7 +192,7 @@ public class TCPBaseReader
             
             ProtocolStreamReader allReader = new ProtocolStreamReader(datas);
             ReadContent(allReader);
-            ioSession.write(this);
+            out.write(this);
             
             return true;
         }

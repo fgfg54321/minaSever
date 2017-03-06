@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolEncoderAdapter;
 import org.apache.mina.filter.codec.ProtocolEncoderOutput;
+import org.apache.mina.tcp.base.handler.EncoderHandler;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 
 public class ProtocolTServerTransEncoder extends ProtocolEncoderAdapter 
@@ -29,7 +30,7 @@ public class ProtocolTServerTransEncoder extends ProtocolEncoderAdapter
         	EncoderHandler handler = hanlderList.get(i);
         	if(handler.IsMeet(session))
         	{
-        		handler.Encode(request, session);
+        		handler.Encode(request,session,output);
         	}
          }
 	}

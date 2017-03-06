@@ -3,11 +3,11 @@ package org.apache.mina.tcp.base.logicserver.protocol.handler;
 import java.util.HashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
-import org.apache.mina.tcp.base.stream.TCPBaseReader;
 
 public class LogicReaderHandler
 {
@@ -22,7 +22,7 @@ public class LogicReaderHandler
 	}
 	
 	
-	public boolean ReaderHander(LogicToTServerTransReader transTcpReader,int messageId,ProtocolStreamReader reader,IoSession ioSession)
+	public boolean ReaderHander(LogicToTServerTransReader transTcpReader,int messageId,ProtocolStreamReader reader,IoSession ioSession,ProtocolDecoderOutput out)
 	{
 		try
 		{
@@ -34,7 +34,7 @@ public class LogicReaderHandler
 					Class<LogicBaseReader> readerClass = clientMsgMaper.get(messageId);
 					LogicBaseReader innerReader      = readerClass.newInstance();
 					transTcpReader.SetInnerTcpReader(innerReader);
-					return innerReader.Read(reader, ioSession);
+					return innerReader.Read(reader, ioSession,out);
 				}
 			}
 			else if(type == LogicConfig.TYPE_LSERVER)
@@ -44,7 +44,7 @@ public class LogicReaderHandler
 					Class<LogicBaseReader> readerClass = serverMsgMaper.get(messageId);
 					LogicBaseReader innerReader        = readerClass.newInstance();
 					transTcpReader.SetInnerTcpReader(innerReader);
-					return innerReader.Read(reader, ioSession);
+					return innerReader.Read(reader, ioSession,out);
 				}
 			}
 		

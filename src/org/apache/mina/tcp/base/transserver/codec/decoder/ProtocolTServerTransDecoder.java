@@ -9,6 +9,7 @@ import org.apache.mina.filter.codec.CumulativeProtocolDecoder;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.log.MLog;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.handler.DecoderHandler;
 
 public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 {
@@ -22,7 +23,7 @@ public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 	}
 	
 	@Override
-    protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out) throws Exception
+    protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out)
     {
 	  int available = in.remaining();
 	  if(available > 4)
@@ -40,7 +41,7 @@ public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 		        	DecoderHandler handler = hanlderList.get(i);
 		        	if(handler.IsMeet(session))
 		        	{
-		        		handler.Decode(reader, session,out);
+		        		handler.Decode(reader,session,out);
 		        	}
 	        	}
 	        	catch(Exception e)

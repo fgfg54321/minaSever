@@ -3,7 +3,9 @@ package org.apache.mina.tcp.base.logicserver.codec.decoder;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.handler.DecoderHandler;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
@@ -17,13 +19,15 @@ public class LogicDecoderHandler extends DecoderHandler
 	
 	public ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>> serverReaderCacheDic = new ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>>();
 	
+	@Override
 	public boolean IsMeet(IoSession session)
 	{
 		boolean isServer = TransServerManager.IsLServer(session);
 		return isServer;
 	}
 	
-	public boolean Decode(ProtocolStreamReader reader,IoSession session)
+	@Override
+	public boolean Decode(ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)
 	{
 	   
         TCPBaseReader tcpReader        = new TCPBaseReader();
@@ -41,14 +45,14 @@ public class LogicDecoderHandler extends DecoderHandler
 	     			case TServerConfig.MESSAGE_TRANS:
 	     			{
 	     				tcpReader = new LogicToTServerTransReader();
-	     				TransReader(tcpReader, reader, session);
+	     				TransReader(tcpReader, reader, session,out);
 	     				
 	     				break;
 	     			}
 	     			case TServerConfig.MESSAGE_OFFLINE:
 	     			{
 	     				tcpReader = new TServerNoticeLogicOffLineInfoReader();
-	     				OffLineReader(tcpReader,reader,session);
+	     				OffLineReader(tcpReader,reader,session,out);
 	     				
 	     				break;
 	     			}
@@ -61,9 +65,9 @@ public class LogicDecoderHandler extends DecoderHandler
 	     return true;
 	}
 	
-	protected void OffLineReader(TCPBaseReader tcpReader,ProtocolStreamReader reader,IoSession session)
+	protected void OffLineReader(TCPBaseReader tcpReader,ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)
 	{
-		if(!tcpReader.Read(reader,session))
+		if(!tcpReader.Read(reader,session,out))
 		{
 			TServerNoticeLogicOffLineInfoReader offLineReader = (TServerNoticeLogicOffLineInfoReader)tcpReader;
 			int type = offLineReader.GetType();
@@ -91,9 +95,9 @@ public class LogicDecoderHandler extends DecoderHandler
 	}
 	
 	
-	protected void TransReader(TCPBaseReader tcpReader,ProtocolStreamReader reader,IoSession session)
+	protected void TransReader(TCPBaseReader tcpReader,ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)
 	{
-		if(!tcpReader.Read(reader,session))
+		if(!tcpReader.Read(reader,session,out))
 		{
 			LogicToTServerTransReader transReader = (LogicToTServerTransReader)tcpReader;
 			
@@ -123,7 +127,7 @@ public class LogicDecoderHandler extends DecoderHandler
 	     		{
 	     			TCPBaseReader saveTcpReader               = readerCacheDic.get(uniqueId);
 	     			LogicToTServerTransReader saveTransReader = (LogicToTServerTransReader)saveTcpReader;
-	     			if(saveTransReader.Combine(transReader, session))
+	     			if(saveTransReader.Combine(transReader, session,out))
 	     			{
 	     				cacheReaderDic.remove(uniqueId);
 	     			}
