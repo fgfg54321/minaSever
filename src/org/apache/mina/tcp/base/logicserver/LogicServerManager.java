@@ -16,6 +16,11 @@ public class LogicServerManager
 {
 	public static final int    INVALID_ID     = -1;
 	
+	public static final String TYPE_BELONG     = "belong";
+	public static final int    TYPE_CLIENT     = 0;//"client";
+	public static final int    TYPE_LSERVER    = 1;//"logic server";
+	public static final int    TYPE_TSERVER    = 2;//"trans server";
+	
 	public static final String TYPE_ID        = "id";
 
 	public ConcurrentHashMap<Long,ConnectTServer>  connectTServerDic = new ConcurrentHashMap<Long,ConnectTServer>();
@@ -111,6 +116,14 @@ public class LogicServerManager
 	{
 		TServerConnectWriter connectWriter = new TServerConnectWriter(self);
 		session.write(connectWriter);
+		session.setAttribute(TYPE_BELONG, TYPE_TSERVER);
+	}
+	
+	
+	public static boolean IsConnectTServer(IoSession session)
+	{
+		Object obj = session.getAttribute(TYPE_BELONG);
+		return obj != null && obj.equals(TYPE_TSERVER);
 	}
 	
 	public void ConnectTServer(IoSession session,ConnectTServer tServer)
@@ -118,6 +131,7 @@ public class LogicServerManager
 		long id                = tServer.id;
 		tServer.session        = session;
 		session.setAttribute(TYPE_ID, id);
+		
 		if(!connectTServerDic.contains(id))
 		{
 			connectTServerDic.put(id, tServer);	

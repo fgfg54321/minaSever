@@ -7,6 +7,7 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.handler.DecoderHandler;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
+import org.apache.mina.tcp.base.logicserver.LogicServerManager;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
@@ -22,7 +23,7 @@ public class LogicDecoderHandler extends DecoderHandler
 	@Override
 	public boolean IsMeet(IoSession session)
 	{
-		boolean isServer = TransServerManager.IsLServer(session);
+		boolean isServer = LogicServerManager.IsConnectTServer(session);
 		return isServer;
 	}
 	
