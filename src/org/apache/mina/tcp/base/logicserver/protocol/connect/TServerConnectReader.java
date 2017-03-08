@@ -14,11 +14,6 @@ public class TServerConnectReader extends LogicBaseReader
     public int     errorCode;
     public String  message;
     
-	public int GetDstServerId()
-    {
-    	return Config.LOGIN_SERVER;
-    }
-	
 	public int GetMessageId()
     {
     	return Config.MESSAGE_LOGIN;

@@ -11,7 +11,7 @@ public class ServerOffLineWriter extends TCPBaseWriter
 	public ConnectLServer connectServer = new ConnectLServer();
     
    
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return Config.SERVER_ID;
     }

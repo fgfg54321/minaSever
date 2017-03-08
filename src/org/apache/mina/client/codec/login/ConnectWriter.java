@@ -10,7 +10,7 @@ public class ConnectWriter extends TCPBaseWriter
 	public String userName;
 	public long   uid;
     
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return Config.LOGIN_SERVER;
     }

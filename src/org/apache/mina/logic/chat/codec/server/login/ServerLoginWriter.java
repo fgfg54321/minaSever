@@ -9,12 +9,12 @@ public class ServerLoginWriter extends TCPBaseWriter
 {
     public ConnectLServer connectServer = new ConnectLServer();
     
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return Config.SERVER_ID;
     }
     
-    public int GetDstServerId()
+    public long GetDstServerId()
     {
     	return Config.LOGIN_SERVER;
     }

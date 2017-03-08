@@ -25,12 +25,12 @@ public class TCPBaseWriter
     	return uniqueId;
     }
     
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return 0;
     }
     
-    public int GetDstServerId()
+    public long GetDstServerId()
     {
     	return 0;
     }
@@ -57,8 +57,8 @@ public class TCPBaseWriter
     
     protected void WriteHeader(ProtocolStreamWriter writer)
     {
-    	writer.WriteInt32(GetSrcServerId());
-    	writer.WriteInt32(GetDstServerId());
+    	writer.WriteInt64(GetSrcServerId());
+    	writer.WriteInt64(GetDstServerId());
     	writer.WriteInt32(GetMessageId());
     	writer.WriteInt64(GetUniqueId());
     	writer.WriteBoolean(IsGZip());

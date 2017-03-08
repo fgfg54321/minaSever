@@ -12,7 +12,7 @@ public class ClientConnectWriter extends TCPBaseWriter
     
     
     @Override
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

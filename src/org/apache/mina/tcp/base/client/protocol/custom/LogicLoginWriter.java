@@ -10,7 +10,7 @@ public class LogicLoginWriter extends TCPBaseWriter
 	public String userName;
 	public long   uid;
     
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return ClientConfig.LOGIC_SERVER_ID;
     }

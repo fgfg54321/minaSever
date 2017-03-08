@@ -10,7 +10,7 @@ public class TServerDSSendConnectWriter extends TCPBaseWriter
 	public  ConnectTServer tranServer;
 	
     @Override
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

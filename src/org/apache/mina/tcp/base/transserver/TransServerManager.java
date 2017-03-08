@@ -94,7 +94,7 @@ public class TransServerManager
 			}
 			else
 			{
-				LogicConnectWriter loginResponse = new LogicConnectWriter(self);
+				LogicConnectWriter loginResponse = new LogicConnectWriter(server,self);
 				session.write(loginResponse);
 				logicServerConnectMap.put(srcServerId, server);
 			}

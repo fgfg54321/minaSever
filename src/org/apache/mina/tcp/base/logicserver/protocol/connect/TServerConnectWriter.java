@@ -7,16 +7,10 @@ import org.apache.mina.tcp.base.struct.ConnectLServer;
 
 public class TServerConnectWriter extends LogicBaseWriter
 {
-    
 	public TServerConnectWriter(ConnectLServer logicServer)
 	{
 		this.connectInfo = logicServer;
 	}
-	
-	public int GetDstServerId()
-    {
-    	return Config.LOGIN_SERVER;
-    }
 	
     public int GetMessageId()
     {

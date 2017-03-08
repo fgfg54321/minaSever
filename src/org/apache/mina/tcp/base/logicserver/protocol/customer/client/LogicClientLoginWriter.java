@@ -11,7 +11,7 @@ public class LogicClientLoginWriter extends LogicBaseWriter
 	public int    errorCode;
 	public long   message;
     
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return LogicConfig.SERVER_ID;
     }

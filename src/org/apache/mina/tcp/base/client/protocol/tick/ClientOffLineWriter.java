@@ -8,7 +8,7 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 public class ClientOffLineWriter extends TCPBaseWriter
 {
     
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return ClientConfig.CONNECT_SERVER_ID;
     }

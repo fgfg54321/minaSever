@@ -23,7 +23,7 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
     	this.datas          = datas;
     }
     
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

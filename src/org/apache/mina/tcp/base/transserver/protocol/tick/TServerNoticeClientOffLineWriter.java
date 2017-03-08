@@ -10,7 +10,7 @@ public class TServerNoticeClientOffLineWriter extends TCPBaseWriter
     public long uid;
     
     @Override
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

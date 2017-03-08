@@ -10,7 +10,7 @@ public class LoginChatWriter extends TCPBaseWriter
 	public String userName;
 	public long   uid;
     
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return Config.CHAT_SERVER;
     }

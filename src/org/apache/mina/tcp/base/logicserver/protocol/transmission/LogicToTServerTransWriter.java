@@ -23,11 +23,6 @@ public class LogicToTServerTransWriter extends TCPBaseWriter
     	this.datas        = datas;
     }
     
-    public int GetSrcServerId()
-    {
-    	return TServerConfig.SERVER_ID;
-    }
-    
     public int GetMessageId()
     {
     	return TServerConfig.MESSAGE_TRANS;

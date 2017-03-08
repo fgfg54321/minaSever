@@ -12,7 +12,7 @@ public class LogicReceiveTServerOffLineInfoWriter extends TCPBaseWriter
 	 public int type;
 	 public long id;
     
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

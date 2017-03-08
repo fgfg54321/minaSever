@@ -10,7 +10,7 @@ public class ClientConnectWriter extends TCPBaseWriter
 	public String userName;
 	public long   uid;
     
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return ClientConfig.CONNECT_SERVER_ID;
     }
