@@ -7,7 +7,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseReader;
 public class ConnectReader extends TCPBaseReader
 {
 	
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return Config.LOGIN_SERVER;
     }

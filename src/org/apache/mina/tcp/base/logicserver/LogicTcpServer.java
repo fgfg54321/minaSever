@@ -69,8 +69,10 @@ public class LogicTcpServer extends IoHandlerAdapter
 
 	        session = connFuture.getSession();
 	        
-	        
-	        connectManager.SendConnectRequest(session);
+	        ConnectTServer tServer = new ConnectTServer();
+	        tServer.id      = 0;
+	        tServer.session = session;
+	        connectManager.SendConnectRequest(tServer);
 		      
 	       
 		} 

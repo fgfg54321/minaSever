@@ -13,7 +13,14 @@ public class EncoderHandler
 	
 	public boolean Encode(TCPBaseWriter tcpWriter,IoSession session, ProtocolEncoderOutput output)
 	{
-		tcpWriter.WriteDirectly(session,output);
+		try
+		{
+			tcpWriter.WriteDirectly(session,output);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		return true;
 	}
 }

@@ -26,7 +26,7 @@ public class TransServerDecoderHandler extends DecoderHandler
         TCPBaseReader tcpReader        = new TCPBaseReader();
      	tcpReader.ReadHeader(reader);
      	
-     	int dstServer                  = tcpReader.GetDstServerId();
+     	long dstServer                 = tcpReader.GetDstServerId();
     	int messageId                  = tcpReader.GetMessageId();
  		
 		reader.Reset();

@@ -16,7 +16,7 @@ public class LogicClientLoginReader extends LogicBaseReader
 	public String userName;
 	public long   uid;
 	
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return LogicConfig.SERVER_ID;
     }

@@ -24,7 +24,7 @@ public class ClientDecoderHandler extends DecoderHandler
         TCPBaseReader tcpReader        = new TCPBaseReader();
      	tcpReader.ReadHeader(reader);
      	
-     	int srcServer                  = tcpReader.GetSrcServerId();
+     	long srcServer                 = tcpReader.GetSrcServerId();
      	int messageId                  = tcpReader.GetMessageId();
      	
 

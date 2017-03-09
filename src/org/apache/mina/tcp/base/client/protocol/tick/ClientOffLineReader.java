@@ -10,7 +10,7 @@ public class ClientOffLineReader extends TCPBaseReader
 {
 	public long uid;
 	
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return ClientConfig.CONNECT_SERVER_ID;
     }

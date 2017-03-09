@@ -17,7 +17,7 @@ public class TServerDSSendConnectReader extends TCPBaseReader
 	public ConnectTServer connectServer = new ConnectTServer();
 	  
 	@Override
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

@@ -11,7 +11,7 @@ public class TServerNoticeClientOffLineReader extends TCPBaseReader
 	public long id;
 	
 	@Override
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

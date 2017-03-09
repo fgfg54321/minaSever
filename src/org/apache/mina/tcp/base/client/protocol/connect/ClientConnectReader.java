@@ -9,7 +9,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseReader;
 public class ClientConnectReader extends TCPBaseReader
 {
 	
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return ClientConfig.CONNECT_SERVER_ID;
     }

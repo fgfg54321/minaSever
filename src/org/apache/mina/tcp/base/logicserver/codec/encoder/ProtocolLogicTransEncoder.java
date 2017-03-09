@@ -21,16 +21,25 @@ public class ProtocolLogicTransEncoder extends ProtocolEncoderAdapter
 	@Override
 	public void encode(IoSession session, Object obj, ProtocolEncoderOutput output) throws Exception
 	{
-		TCPBaseWriter request   = (TCPBaseWriter)obj;
-		
-		 for(int i = 0; i < hanlderList.size();i++)
-         {
-        	EncoderHandler handler = hanlderList.get(i);
-        	if(handler.IsMeet(session))
-        	{
-        		handler.Encode(request, session,output);
-        	}
-         }
+		try
+		{
+			TCPBaseWriter request   = (TCPBaseWriter)obj;
+			
+			 for(int i = 0; i < hanlderList.size();i++)
+	         {
+	        	EncoderHandler handler = hanlderList.get(i);
+	        	if(handler.IsMeet(session))
+	        	{
+	        		
+	        			handler.Encode(request, session,output);
+	        		
+	        	}
+	         }
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 }

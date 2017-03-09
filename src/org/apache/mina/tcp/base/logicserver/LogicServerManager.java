@@ -112,11 +112,12 @@ public class LogicServerManager
 	}
 	
 
-	public void SendConnectRequest(IoSession session)
+	public void SendConnectRequest(ConnectTServer transServer)
 	{
 		TServerConnectWriter connectWriter = new TServerConnectWriter(self);
-		session.write(connectWriter);
-		session.setAttribute(TYPE_BELONG, TYPE_TSERVER);
+		connectWriter.setTransServer(transServer);
+		transServer.session.write(connectWriter);
+		transServer.session.setAttribute(TYPE_BELONG, TYPE_TSERVER);
 	}
 	
 	

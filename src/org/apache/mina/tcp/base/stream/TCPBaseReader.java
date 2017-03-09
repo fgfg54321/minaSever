@@ -14,8 +14,8 @@ import org.apache.mina.utils.SVZipUtils;
 public class TCPBaseReader
 {
 	protected long    uniqueId;
-	protected int     srcServerId;
-	protected int     dstServerId;
+	protected long    srcServerId;
+	protected long    dstServerId;
 	protected int     messageId;
 	protected boolean gzip;
 	protected int     sliceSize;
@@ -31,12 +31,12 @@ public class TCPBaseReader
     	return uniqueId;
     }
 	
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return srcServerId;
     }
     
-    public int GetDstServerId()
+    public long GetDstServerId()
     {
     	return dstServerId;
     }
@@ -53,8 +53,8 @@ public class TCPBaseReader
     
     public void ReadHeader(ProtocolStreamReader reader)
     {
-        srcServerId         = reader.ReadInt32();
-        dstServerId         = reader.ReadInt32();
+        srcServerId         = reader.ReadInt64();
+        dstServerId         = reader.ReadInt64();
         messageId           = reader.ReadInt32();   
         uniqueId            = reader.ReadInt64();
         gzip                = reader.ReadBoolean();
@@ -97,14 +97,9 @@ public class TCPBaseReader
 		     if (IsReceiveFull())
 		     {
 		     	ProtocolStreamWriter writer = new ProtocolStreamWriter();
-		        ArrayList<Byte> dataArr     = new ArrayList<Byte>();
 		        for (int i = 0; i < splitDataDic.size(); i++)
 		        {
 		             byte[] unGzipDatas = splitDataDic.get(i).datas;
-		             for(int j = 0 ; j < unGzipDatas.length; j++)
-		             {
-		             	dataArr.add(unGzipDatas[j]);
-		             }
 		             writer.WriteBytes(unGzipDatas);
 		         }
 		
@@ -170,14 +165,9 @@ public class TCPBaseReader
         if (IsReceiveFull())
         {
         	ProtocolStreamWriter writer = new ProtocolStreamWriter();
-            ArrayList<Byte> dataArr     = new ArrayList<Byte>();
             for (int i = 0; i < splitDataDic.size(); i++)
             {
                 byte[] unGzipDatas = splitDataDic.get(i).datas;
-                for(int j = 0 ; j < unGzipDatas.length; j++)
-                {
-                	dataArr.add(unGzipDatas[j]);
-                }
                 writer.WriteBytes(unGzipDatas);
             }
 

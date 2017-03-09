@@ -13,7 +13,7 @@ public class LogicConnectReader extends TCPBaseReader
 	public ConnectLServer logicServer = new ConnectLServer();
   
 	@Override
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

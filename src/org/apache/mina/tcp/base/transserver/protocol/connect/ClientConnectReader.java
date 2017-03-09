@@ -17,7 +17,7 @@ public class ClientConnectReader extends TCPBaseReader
 	public ConnectClient connectClient = new ConnectClient();
     
 	@Override
-	public int GetSrcServerId()
+	public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

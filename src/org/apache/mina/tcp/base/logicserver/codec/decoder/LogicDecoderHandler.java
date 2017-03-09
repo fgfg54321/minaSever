@@ -8,9 +8,9 @@ import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.handler.DecoderHandler;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.LogicServerManager;
+import org.apache.mina.tcp.base.logicserver.protocol.connect.TServerConnectReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffLineInfoReader;
 
@@ -34,7 +34,7 @@ public class LogicDecoderHandler extends DecoderHandler
         TCPBaseReader tcpReader        = new TCPBaseReader();
      	tcpReader.ReadHeader(reader);
      	
-     	int dstServer                  = tcpReader.GetDstServerId();
+     	long dstServer                 = tcpReader.GetDstServerId();
     	int messageId                  = tcpReader.GetMessageId();
  		if(dstServer == LogicConfig.SERVER_ID)
  		{
@@ -43,14 +43,14 @@ public class LogicDecoderHandler extends DecoderHandler
 			{
  				switch(messageId)
 	 			{
-	     			case TServerConfig.MESSAGE_TRANS:
+	     			case LogicConfig.MESSAGE_CONNECT_LOGIN:
 	     			{
-	     				tcpReader = new LogicToTServerTransReader();
-	     				TransReader(tcpReader, reader, session,out);
+	     				tcpReader = new TServerConnectReader();
+	     				tcpReader.Read(reader,session,out);
 	     				
 	     				break;
 	     			}
-	     			case TServerConfig.MESSAGE_OFFLINE:
+	     			case LogicConfig.MESSAGE_CONNECT_OFFLINE:
 	     			{
 	     				tcpReader = new TServerNoticeLogicOffLineInfoReader();
 	     				OffLineReader(tcpReader,reader,session,out);
@@ -60,6 +60,19 @@ public class LogicDecoderHandler extends DecoderHandler
 	     				
 	     	     }
 			}
+ 			else
+ 			{
+ 				switch(messageId)
+	 			{
+		 			case LogicConfig.MESSAGE_CONNECT_TRANS:
+		 			{
+		 				tcpReader = new LogicToTServerTransReader();
+		 				TransReader(tcpReader, reader, session,out);
+		 				
+		 				break;
+		 			}
+	 			}
+ 			}
  			
 	     }
  		

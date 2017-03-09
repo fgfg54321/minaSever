@@ -15,7 +15,7 @@ public class TServerToClientTransReader extends TCPBaseReader
 
     
     @Override
-    public int GetSrcServerId()
+    public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }

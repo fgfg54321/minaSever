@@ -6,7 +6,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseReader;
 
 public class LoginChatReader extends TCPBaseReader
 {
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return Config.CHAT_SERVER;
     }

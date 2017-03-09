@@ -7,7 +7,7 @@ public class LogicConfig
 	
 	public static final int MESSAGE_CONNECT_LOGIN   = 0x00000000;
 	public static final int MESSAGE_CONNECT_OFFLINE = 0x00000001;
-	
+	public static final int MESSAGE_CONNECT_TRANS   = 0x000000002;
 	
 	public static final int SERVER_ID               = 0x10000000;
 	//Logic Server

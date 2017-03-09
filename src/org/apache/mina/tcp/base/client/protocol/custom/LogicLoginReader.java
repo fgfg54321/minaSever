@@ -8,7 +8,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseReader;
 public class LogicLoginReader extends TCPBaseReader
 {
 
-	public int GetDstServerId()
+	public long GetDstServerId()
     {
     	return ClientConfig.LOGIC_SERVER_ID;
     }

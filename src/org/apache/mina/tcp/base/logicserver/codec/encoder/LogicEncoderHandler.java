@@ -16,22 +16,23 @@ public class LogicEncoderHandler extends EncoderHandler
 	@Override
 	public boolean Encode(TCPBaseWriter tcpWriter,IoSession session, ProtocolEncoderOutput out)
 	{
-		if(tcpWriter instanceof LogicBaseWriter)
-		{
-			LogicBaseWriter logicBaseWrite = (LogicBaseWriter)tcpWriter;
-	
-			List<IoBuffer> sendBuffers    = logicBaseWrite.GenerateSendBuffer();
-			for(int i = 0; i < sendBuffers.size();i++)
+		
+			if(tcpWriter instanceof LogicBaseWriter)
 			{
-				IoBuffer buffer = sendBuffers.get(i);
-				out.write(buffer);
+				LogicBaseWriter logicBaseWrite = (LogicBaseWriter)tcpWriter;
+		
+				List<IoBuffer> sendBuffers    = logicBaseWrite.GenerateSendBuffer();
+				for(int i = 0; i < sendBuffers.size();i++)
+				{
+					IoBuffer buffer = sendBuffers.get(i);
+					out.write(buffer);
+				}
 			}
-		}
-		else
-		{
-			tcpWriter.WriteDirectly(session, out);
-		}
-					
+			else
+			{
+				tcpWriter.WriteDirectly(session, out);
+			}
+		
 		
 		return true;
 	}
