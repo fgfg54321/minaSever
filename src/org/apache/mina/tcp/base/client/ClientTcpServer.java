@@ -66,6 +66,7 @@ public class ClientTcpServer extends IoHandlerAdapter
 	        
 	        clientManager.SetSession(session);
 	        
+	        clientManager.ConnectTransServer();
 		} 
 		catch (Exception e)
 		{
@@ -81,7 +82,7 @@ public class ClientTcpServer extends IoHandlerAdapter
 	@Override
     public void sessionOpened(IoSession session) throws Exception
     {
-		clientManager.Login();
+		
     }
 	
 	public void sessionClosed(IoSession session) throws Exception

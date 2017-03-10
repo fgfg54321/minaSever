@@ -17,10 +17,15 @@ public class ClientManager
 		this.session = session;
 	}
 	
-	public void Login()
+	public void ConnectTransServer()
 	{
 		ClientConnectWriter connectWriter = new ClientConnectWriter();
 		session.write(connectWriter);
 	}
 	
+	
+	public void ConnectLogicServer()
+	{
+		
+	}
 }
