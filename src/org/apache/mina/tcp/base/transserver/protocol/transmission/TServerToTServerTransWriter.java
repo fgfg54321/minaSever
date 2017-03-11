@@ -9,7 +9,8 @@ public class TServerToTServerTransWriter extends TCPBaseWriter
 {
 	
 	public ConnectBase  connectBase;
-	public byte[]         datas;
+	public byte[]       datas;
+	public long         dstServerId; 
 	  
     public TServerToTServerTransWriter()
     {
@@ -20,6 +21,17 @@ public class TServerToTServerTransWriter extends TCPBaseWriter
     {
     	this.connectBase    = connectBase;
     	this.datas          = datas;
+    }
+    
+    public void setDstServerId(long dstServerId)
+    {
+    	this.dstServerId = dstServerId;
+    }
+    		
+    @Override
+    public long GetDstServerId()
+    {
+    	return dstServerId;
     }
     
     public long GetSrcServerId()

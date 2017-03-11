@@ -40,6 +40,7 @@ public class TServerToClientTransReader extends TCPBaseReader
 		{
 			ConnectClient cClient                       = manager.GetClient(session);
 			TServerToLogicTransWriter tsToLogicWriter   = new TServerToLogicTransWriter(cClient,datas);
+			tsToLogicWriter.setDstServerId(dstServerId);
     		server.session.write(tsToLogicWriter);
 		}
 		else 

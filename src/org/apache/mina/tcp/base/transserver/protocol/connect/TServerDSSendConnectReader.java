@@ -34,13 +34,14 @@ public class TServerDSSendConnectReader extends TCPBaseReader
 		 result     = reader.ReadBoolean();
     	 errorCode  = reader.ReadInt32();
     	 message    = reader.ReadString16();
+    	 connectServer.Read(reader);
     }
 	
 	@Override
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager = (TransServerManager)param;
-    	manager.Login(session, this);
+    	manager.SetTransServerConnector(session,connectServer);
     }
     
 }

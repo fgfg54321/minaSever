@@ -15,8 +15,7 @@ public class ClientDecoderHandler extends DecoderHandler
 {
 	public boolean IsMeet(IoSession session)
 	{
-		boolean isServer = TransServerManager.IsLServer(session);
-		return isServer;
+		return true;
 	}
 	
 	public boolean Decode(ProtocolStreamReader reader,IoSession session,ProtocolDecoderOutput out)

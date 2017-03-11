@@ -5,16 +5,13 @@ import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectClient;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.struct.ConnectTServer;
-import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectReader;
 import org.apache.mina.tcp.base.transserver.protocol.connect.ClientConnectWriter;
-import org.apache.mina.tcp.base.transserver.protocol.connect.LogicConnectReader;
 import org.apache.mina.tcp.base.transserver.protocol.connect.LogicConnectWriter;
 import org.apache.mina.tcp.base.transserver.protocol.connect.TServerDSReceiveConnectWriter;
-import org.apache.mina.tcp.base.transserver.protocol.connect.TServerDSSendConnectReader;
+import org.apache.mina.tcp.base.transserver.protocol.connect.TServerDSSendConnectWriter;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeClientOffLineWriter;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffLineInfoWriter;
 import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeTServerDsOffLineWriter;
@@ -50,7 +47,7 @@ public class TransServerManager
 		self.name  = "1";
 		self.token = "";
 	}
-	
+	/*
 	public boolean Login(IoSession session,TCPBaseReader tcpRequest)
 	{
 		if(tcpRequest.GetMessageId() != TServerConfig.MESSAGE_LOGIN)
@@ -125,6 +122,27 @@ public class TransServerManager
     	}
     	return false;
 	}
+	*/
+	
+	public void ClientLogin(IoSession session, ConnectClient client)
+	{
+		client.session = session;
+		session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
+		long uid                       = client.id;
+		session.setAttribute(TYPE_ID, uid);
+		
+		if(clientConnectMap.containsKey(uid))
+		{
+			ClientTick(uid);
+			clientConnectMap.replace(uid, client);
+		}
+		else
+		{
+			ClientConnectWriter loginResponse = new ClientConnectWriter();
+			session.write(loginResponse);
+			clientConnectMap.put(uid, client);
+		}
+	}
 	
 	
 	public void ClientLoginOut(long uid)
@@ -136,12 +154,50 @@ public class TransServerManager
 		}
 	}
 	
+	public void LServerLogin(IoSession session, ConnectLServer server)
+	{
+		server.session = session;
+		
+		session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
+		long srcServerId               =  server.id;
+		session.setAttribute(TYPE_ID, srcServerId);
+		if(logicServerConnectMap.containsKey(srcServerId))
+		{
+			LServerTick(srcServerId);
+			logicServerConnectMap.replace(srcServerId, server);
+		}
+		else
+		{
+			LogicConnectWriter loginResponse = new LogicConnectWriter(server,self);
+			session.write(loginResponse);
+			logicServerConnectMap.put(srcServerId, server);
+		}
+	}
+	
 	public void LServerLoginOut(long serverId)
 	{
 		if(logicServerConnectMap.containsKey(serverId))
 		{
 			LServerTick(serverId);
 			logicServerConnectMap.remove(serverId);
+		}
+	}
+	
+	public void TServerLogin(IoSession session, ConnectTServer server)
+	{
+		session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
+		long srcServerId                   =  server.id;
+		session.setAttribute(TYPE_ID, srcServerId);
+		if(transServerConnectMap.containsKey(srcServerId))
+		{
+			LServerTick(srcServerId);
+			transServerConnectMap.replace(srcServerId, server);
+		}
+		else
+		{
+			TServerDSReceiveConnectWriter loginResponse = new TServerDSReceiveConnectWriter(self);
+			session.write(loginResponse);
+			transServerConnectMap.put(srcServerId, server);
 		}
 	}
 	
@@ -206,14 +262,16 @@ public class TransServerManager
     	return false;
 	}
 	
-	
-	public void SetTransServerConnector(int serverId,String serverName,IoSession session)
+	public void SendTransServerConnect(IoSession session)
 	{
-		
-		ConnectTServer tServer = new ConnectTServer();
-		tServer.id       = serverId;
-		tServer.name     = serverName;
-		tServer.session        = session;
+		TServerDSSendConnectWriter dsConnect = new TServerDSSendConnectWriter(self);
+		session.write(dsConnect);
+	}
+	
+	public void SetTransServerConnector(IoSession session,ConnectTServer transServer)
+	{
+		transServer.session  = session;
+		transTServerConnect  = transServer;
 	}
 	
 

@@ -6,9 +6,10 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class ClientConnectWriter extends TCPBaseWriter
 {
-    public boolean result;
-    public int     errorCode;
-    public String  message;
+	
+    public boolean result = true;
+    public int     errorCode = 0;
+    public String  message = "success";
     
     
     @Override

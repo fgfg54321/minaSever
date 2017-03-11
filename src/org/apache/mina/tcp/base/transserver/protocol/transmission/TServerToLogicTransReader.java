@@ -84,8 +84,9 @@ public class TServerToLogicTransReader extends TCPBaseReader
     			long fromServerId = dstServer.fromRoute.id;
     			if(fromServerId == TServerConfig.SERVER_ID)
     			{
-    				TServerToLogicTransWriter cQueryResponse = new TServerToLogicTransWriter(dstServer,datas);
-        			dstServer.session.write(cQueryResponse);	
+    				TServerToLogicTransWriter logicTransWriter = new TServerToLogicTransWriter(dstServer,datas);
+    				logicTransWriter.setDstServerId(id);
+        			dstServer.session.write(logicTransWriter);	
     			}
     			else//post next transServer
     			{

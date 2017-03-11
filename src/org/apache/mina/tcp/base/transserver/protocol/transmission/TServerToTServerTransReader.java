@@ -61,8 +61,8 @@ public class TServerToTServerTransReader extends TCPBaseReader
         		long fromServerId = dstClient.fromRoute.id;
         		if(fromServerId == TServerConfig.SERVER_ID)
         		{
-            		TServerToClientTransWriter cQueryResponse = new TServerToClientTransWriter(datas);
-            		dstClient.session.write(cQueryResponse);
+            		TServerToClientTransWriter clientTransWriter = new TServerToClientTransWriter(datas);
+            		dstClient.session.write(clientTransWriter);
         		}
         		else//post from transServer
         		{
@@ -84,8 +84,9 @@ public class TServerToTServerTransReader extends TCPBaseReader
     			long fromServerId = dstServer.fromRoute.id;
     			if(fromServerId == TServerConfig.SERVER_ID)
     			{
-    				TServerToLogicTransWriter cQueryResponse = new TServerToLogicTransWriter(dstServer,datas);
-        			dstServer.session.write(cQueryResponse);	
+    				TServerToLogicTransWriter logicTransWriter = new TServerToLogicTransWriter(dstServer,datas);
+    				logicTransWriter.setDstServerId(id);
+        			dstServer.session.write(logicTransWriter);	
     			}
     			else//post from transServer
     			{

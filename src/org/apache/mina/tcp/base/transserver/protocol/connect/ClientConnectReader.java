@@ -4,6 +4,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectClient;
+import org.apache.mina.tcp.base.struct.Route;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
 
@@ -40,7 +41,12 @@ public class ClientConnectReader extends TCPBaseReader
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager = (TransServerManager)param;
-    	manager.Login(session, this);
+    	connectClient.id           = uid;
+    	connectClient.name         = userName;
+    	connectClient.token        = token;
+    	connectClient.route        = new Route(TServerConfig.SERVER_ID);
+    	connectClient.fromRoute    = new Route(TServerConfig.SERVER_ID);
+    	manager.ClientLogin(session, connectClient);
     }
     
 }

@@ -54,16 +54,8 @@ public class LogicServerDecoderHandler extends DecoderHandler
 		}
 		else
 		{
- 			switch(messageId)
- 			{
-     			case TServerConfig.MESSAGE_TRANS:
-     			{
-     				tcpReader = new TServerToLogicTransReader();
-     				tcpReader.Read(reader,session,out);
-     				
-     				break;
-     			}
-     	     }
+			tcpReader = new TServerToLogicTransReader();
+			tcpReader.Read(reader,session,out);
 		}
 	 		
 	  return true;

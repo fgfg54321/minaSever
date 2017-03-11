@@ -3,7 +3,7 @@ package org.apache.mina.tcp.base.transserver.protocol.connect;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.struct.ConnectLServer;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
 
@@ -14,7 +14,7 @@ public class TServerDSReceiveConnectReader extends TCPBaseReader
 	public String userName;
 	public long   serverId;
 	
-	public ConnectLServer connectServer = new ConnectLServer();
+	public ConnectTServer connectServer = new ConnectTServer();
 	  
 	@Override
 	public long GetSrcServerId()
@@ -34,13 +34,14 @@ public class TServerDSReceiveConnectReader extends TCPBaseReader
     	token    = reader.ReadString16();
     	userName = reader.ReadString16();
     	serverId = reader.ReadInt64();
+    	connectServer.Read(reader);
     }
 	
 	@Override
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager = (TransServerManager)param;
-    	manager.Login(session, this);
+    	manager.TServerLogin(session, connectServer);
     }
     
 }

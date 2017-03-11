@@ -58,17 +58,8 @@ public class TransServerDecoderHandler extends DecoderHandler
 		}
 		else
 		{
- 			switch(messageId)
- 			{
-     			case TServerConfig.MESSAGE_TRANS:
-     			{
-     				tcpReader = new TServerToTServerTransReader();
-     				tcpReader.Read(reader,session,out);
-     				
-     				break;
-     			}
-     				
-     	     }
+			tcpReader = new TServerToTServerTransReader();
+			tcpReader.Read(reader,session,out);
 		}
 	         
 	    return true;

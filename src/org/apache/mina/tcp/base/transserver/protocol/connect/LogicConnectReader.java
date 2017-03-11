@@ -34,7 +34,7 @@ public class LogicConnectReader extends TCPBaseReader
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager = (TransServerManager)param;
-    	manager.Login(session, this);
+    	manager.LServerLogin(session, logicServer);
     }
     
 }

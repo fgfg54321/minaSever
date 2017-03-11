@@ -55,15 +55,10 @@ public class ClientDecoderHandler extends DecoderHandler
 		}
 		else
 		{
-			switch(messageId)
-			{
-				case TServerConfig.MESSAGE_TRANS:
-				{
-					tcpReader = new TServerToClientTransReader();
-					tcpReader.Read(reader,session,out);
-					break;
-				}
-		     }
+			
+			tcpReader = new TServerToClientTransReader();
+			tcpReader.Read(reader,session,out);
+			
 		}
     		
        return true;

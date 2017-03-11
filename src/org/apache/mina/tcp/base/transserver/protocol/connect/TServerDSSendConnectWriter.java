@@ -9,6 +9,11 @@ public class TServerDSSendConnectWriter extends TCPBaseWriter
 {
 	public  ConnectTServer tranServer;
 	
+	public TServerDSSendConnectWriter(ConnectTServer transServer)
+	{
+		this.tranServer = tranServer;
+	}
+	
     @Override
     public long GetSrcServerId()
     {

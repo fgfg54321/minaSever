@@ -66,7 +66,7 @@ public class TransTcpServerConnector extends IoHandlerAdapter
 	        connectFuture.awaitUninterruptibly(connectTimtOut);
 	        IoSession session = connectFuture.getSession();
 	        
-	        connectManager.SetTransServerConnector(serverId,serverName,session);
+	        connectManager.SendTransServerConnect(session);
 	        
 		} 
 		catch (Exception e)

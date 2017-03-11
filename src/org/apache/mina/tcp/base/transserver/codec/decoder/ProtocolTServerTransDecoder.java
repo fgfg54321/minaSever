@@ -25,37 +25,38 @@ public class ProtocolTServerTransDecoder extends CumulativeProtocolDecoder
 	@Override
     protected boolean doDecode(IoSession session, IoBuffer in, ProtocolDecoderOutput out)
     {
-	 try
-	 {
-		  int available = in.remaining();
-		  if(available > 4)
-		  {
-		  	int len = in.getInt();
-		  	if(len >= available - 4)
-		  	{
-		  		byte[] dataBytes                = new byte[len];
-		        in.get(dataBytes);
-		        ProtocolStreamReader reader     = new ProtocolStreamReader(dataBytes);
-		        for(int i = 0; i < hanlderList.size();i++)
-		        {
-		        	DecoderHandler handler = hanlderList.get(i);
-		        	if(handler.IsMeet(session))
-		        	{
-		        		handler.Decode(reader,session,out);
-		        	}
-		        }
-		        
-		        return true;
-		  	}
-		  }
-		  
-
-		 return false;
-	 }
-	 catch(Exception e)
-	 {
-		e.printStackTrace();
 		
-	 }
+		 try
+		 {
+			  int available = in.remaining();
+			  if(available > 4)
+			  {
+			  	int len = in.getInt();
+			  	if(len >= available - 4)
+			  	{
+			  		byte[] dataBytes                = new byte[len];
+			        in.get(dataBytes);
+			        ProtocolStreamReader reader     = new ProtocolStreamReader(dataBytes);
+			        for(int i = 0; i < hanlderList.size();i++)
+			        {
+			        	DecoderHandler handler = hanlderList.get(i);
+			        	if(handler.IsMeet(session))
+			        	{
+			        		handler.Decode(reader,session,out);
+			        	}
+			        }
+			        
+			        return true;
+			  	}
+			  	
+			  }
+			  
+			 return false;
+		 }
+		 catch(Exception e)
+		 {
+			e.printStackTrace();
+		 }
+	 return true;
   }
 }

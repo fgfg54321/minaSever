@@ -10,6 +10,7 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
 	
 	public ConnectBase   connectBase;
 	public byte[]        datas;
+	public long          dstServerId;
 	
 	
     public TServerToLogicTransWriter()
@@ -23,16 +24,30 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
     	this.datas          = datas;
     }
     
+    public void setDstServerId(long dstServerId)
+    {
+    	this.dstServerId = dstServerId;
+    }
+    		
+    @Override
+    public long GetDstServerId()
+    {
+    	return dstServerId;
+    }
+    
+    @Override
     public long GetSrcServerId()
     {
     	return TServerConfig.SERVER_ID;
     }
     
+    @Override
     public int GetMessageId()
     {
     	return TServerConfig.MESSAGE_TRANS;
     }
     
+    @Override
     protected void WriteContent(ProtocolStreamWriter writer)
     {
     	connectBase.Write(writer);
