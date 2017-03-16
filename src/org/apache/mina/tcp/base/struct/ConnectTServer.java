@@ -12,12 +12,5 @@ public class ConnectTServer extends ConnectBase
 		type = TServerConfig.TYPE_TSERVER;
 	}
 	
-	public void Read(ProtocolStreamReader reader)
-	{
-		type     = reader.ReadInt32();
-		id       = reader.ReadInt64();
-		token    = reader.ReadString16();
-		name     = reader.ReadString16();
-	}
 	
 }

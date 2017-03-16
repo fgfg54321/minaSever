@@ -139,7 +139,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
     	
     	innerTcpReader               = new LogicBaseReader();
     	innerTcpReader.ReadHeader(reader);
-    	
+    	 
      	int messageId                = innerTcpReader.GetMessageId();
 
      	reader.Reset();

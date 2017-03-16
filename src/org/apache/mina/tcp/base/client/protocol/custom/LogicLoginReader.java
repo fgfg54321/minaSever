@@ -5,11 +5,12 @@ import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.client.ClientConfig;
 import org.apache.mina.tcp.base.client.ClientManager;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 
 public class LogicLoginReader extends TCPBaseReader
 {
-	public ConnectLServer logicServer = new ConnectLServer();
+	public ConnectLServer logicServer;
 	
 	public String result;
 	public int errorCode;
@@ -27,11 +28,11 @@ public class LogicLoginReader extends TCPBaseReader
     
     public  void ReadContent(ProtocolStreamReader reader)
     {
-    	result     = reader.ReadString16();
-    	errorCode  = reader.ReadInt32();
-    	message    = reader.ReadString16();
+    	result      = reader.ReadString16();
+    	errorCode   = reader.ReadInt32();
+    	message     = reader.ReadString16();
     	
-    	logicServer.Read(reader);
+    	logicServer = (ConnectLServer) ConnectBase.ConnectFactory(reader);
     }
     
     public void  OnReader(IoSession session,Object param)

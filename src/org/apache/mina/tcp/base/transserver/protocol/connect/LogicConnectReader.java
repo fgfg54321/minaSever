@@ -3,6 +3,7 @@ package org.apache.mina.tcp.base.transserver.protocol.connect;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
+import org.apache.mina.tcp.base.struct.ConnectBase;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
@@ -27,7 +28,7 @@ public class LogicConnectReader extends TCPBaseReader
 	@Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
-		logicServer.Read(reader);
+		logicServer = (ConnectLServer) ConnectBase.ConnectFactory(reader);
     }
     
 	@Override
