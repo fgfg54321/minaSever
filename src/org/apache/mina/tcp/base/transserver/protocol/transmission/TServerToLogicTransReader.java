@@ -1,6 +1,7 @@
 package org.apache.mina.tcp.base.transserver.protocol.transmission;
 
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectBase;
@@ -39,7 +40,7 @@ public class TServerToLogicTransReader extends TCPBaseReader
     	return 0;
     }
     
-    
+    @Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
 
@@ -48,6 +49,20 @@ public class TServerToLogicTransReader extends TCPBaseReader
     	
     }
     
+    @Override
+    public boolean Read(ProtocolStreamReader reader,IoSession ioSession,ProtocolDecoderOutput out)
+    {
+    	ReadHeader(reader);
+    	
+        int  sliceIndex          = reader.ReadInt32();
+        
+        ReadContent(reader);
+        out.write(this);
+      
+        return true;
+    }
+    
+    @Override
     public void OnReader(IoSession session,Object param)
     {
     	TransServerManager manager       = (TransServerManager)param;

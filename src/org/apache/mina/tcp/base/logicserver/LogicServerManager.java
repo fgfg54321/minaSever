@@ -1,12 +1,16 @@
 package org.apache.mina.tcp.base.logicserver;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.filter.codec.ProtocolEncoderOutput;
 import org.apache.mina.tcp.base.logicserver.protocol.connect.TServerConnectWriter;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.client.LogicClientLoginWriter;
+import org.apache.mina.tcp.base.logicserver.protocol.handler.LogicReaderHandler;
 import org.apache.mina.tcp.base.logicserver.protocol.tick.LogicReceiveTServerOffLineInfoWriter;
+import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransWriter;
 import org.apache.mina.tcp.base.struct.ConnectClient;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.struct.ConnectTServer;
@@ -34,6 +38,8 @@ public class LogicServerManager
 		self.id    = LogicConfig.SERVER_ID;
 		self.name  = "L";
 		self.token = "ll";
+		
+		LogicReaderHandler.Initialize();
 	}
 	
 	public void ClientLogin(ConnectClient clientInfo)
@@ -48,6 +54,14 @@ public class LogicServerManager
 			ClientTick(id);
 			clientInfoDic.replace(id, clientInfo);
 		}
+		
+		Route route              = clientInfo.fromRoute;
+		long routeId             = route.id;
+		ConnectTServer tServer   = connectTServerDic.get(routeId);
+		IoSession session        = tServer.session;
+		
+		LogicClientLoginWriter logicWriter = new LogicClientLoginWriter();
+		session.write(logicWriter);
 	}
 
 	public void ClientLoginOut(long uid)
@@ -169,6 +183,28 @@ public class LogicServerManager
 	}
 	
 	
+	public void SendToTServer(long id,LogicBaseWriter logicWriter)
+	{
+		if(lServerInfoDic.containsKey(id))
+		{
+			ConnectLServer logicServer   = lServerInfoDic.get(id);
+			Route route                  = logicServer.fromRoute;
+			long routeId                 = route.id;
+			ConnectTServer tServer       = connectTServerDic.get(routeId);
+			IoSession session            = tServer.session;
+			
+			List<IoBuffer> sendBuffers    = logicWriter.GenerateSendBuffer();
+			for(int i = 0; i < sendBuffers.size();i++)
+			{
+				IoBuffer ioBuffer                        = sendBuffers.get(i);
+				byte[] datas                             = ioBuffer.array();
+				LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(logicServer,datas);
+				session.write(logicToTServer);
+			}
+			
+		}
+	}
+	
 	public void SendToClient(long id,LogicBaseWriter logicWriter)
 	{
 		if(clientInfoDic.containsKey(id))
@@ -179,8 +215,15 @@ public class LogicServerManager
 			ConnectTServer tServer   = connectTServerDic.get(routeId);
 			IoSession session        = tServer.session;
 			
-			logicWriter.SetConnectInfo(client);
-			session.write(logicWriter);
+			List<IoBuffer> sendBuffers    = logicWriter.GenerateSendBuffer();
+			for(int i = 0; i < sendBuffers.size();i++)
+			{
+				IoBuffer ioBuffer                        = sendBuffers.get(i);
+				byte[] datas                             = ioBuffer.array();
+				LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(client,datas);
+				session.write(logicToTServer);
+			}
+			
 		}
 	}
 	

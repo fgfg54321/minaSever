@@ -7,18 +7,19 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.client.LogicClientLoginReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 
 public class LogicReaderHandler
 {
 
-	public static HashMap<Integer,Class<LogicBaseReader>> clientMsgMaper = new  HashMap<Integer,Class<LogicBaseReader>>();
+	public static HashMap<Integer,Class> clientMsgMaper = new  HashMap<Integer,Class>();
 	
-	public static HashMap<Integer,Class<LogicBaseReader>> serverMsgMaper = new  HashMap<Integer,Class<LogicBaseReader>>();
+	public static HashMap<Integer,Class> serverMsgMaper = new  HashMap<Integer,Class>();
 	
 	public static void Initialize()
 	{
-		
+		clientMsgMaper.put(LogicConfig.MESSAGE_LOGIC_LOGIN, LogicClientLoginReader.class);
 	}
 	
 	
