@@ -8,7 +8,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 public class LogicClientLoginWriter extends LogicBaseWriter
 {
 	public boolean result    = true;
-    public int     errorCode = 0;
+    public int     code = 0;
     public String  message   = "success";
     
 	public long GetDstServerId()
@@ -24,7 +24,7 @@ public class LogicClientLoginWriter extends LogicBaseWriter
     protected void WriteContent(ProtocolStreamWriter writer)
     {
     	writer.WriteBoolean(result);
-    	writer.WriteInt32(errorCode);
+    	writer.WriteInt32(code);
     	writer.WriteString16(message);
     }
 }

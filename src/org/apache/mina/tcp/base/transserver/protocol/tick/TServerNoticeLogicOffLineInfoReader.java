@@ -53,10 +53,6 @@ public class TServerNoticeLogicOffLineInfoReader extends TCPBaseReader
     	{
     		manager.LServerLoginOut(id);
     	}
-    	else if(type == TServerConfig.TYPE_TSERVER)
-    	{
-    		manager.TServerLoginOut(id);
-    	}
     }
     
 }

@@ -7,18 +7,6 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 public class TServerReceiveTServerDSOffLineWriter extends TCPBaseWriter
 {
 	
-    public int type;
-    public long id;
-    
-    /*
-     * 0 client 1 server
-     */
-    public void SetType(int type,long id)
-    {
-    	this.type = type;
-    	this.id   = id;
-    }
-    
     @Override
     public long GetSrcServerId()
     {

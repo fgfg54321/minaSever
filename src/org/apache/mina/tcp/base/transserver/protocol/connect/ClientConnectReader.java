@@ -12,7 +12,6 @@ public class ClientConnectReader extends TCPBaseReader
 {
 	
 	public String token;
-	public String userName;
 	public long   uid;
 	
 	public ConnectClient connectClient = new ConnectClient();
@@ -33,7 +32,6 @@ public class ClientConnectReader extends TCPBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	token    = reader.ReadString16();
-    	userName = reader.ReadString16();
     	uid      = reader.ReadInt64();
     }
 	
@@ -42,7 +40,7 @@ public class ClientConnectReader extends TCPBaseReader
     {
     	TransServerManager manager = (TransServerManager)param;
     	connectClient.id           = uid;
-    	connectClient.name         = userName;
+    	connectClient.name         = "aaa";
     	connectClient.token        = token;
     	connectClient.route        = new Route(TServerConfig.SERVER_ID);
     	connectClient.fromRoute    = new Route(TServerConfig.SERVER_ID);

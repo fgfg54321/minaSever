@@ -9,8 +9,8 @@ import org.apache.mina.tcp.base.stream.TCPBaseReader;
 public class ClientConnectReader extends TCPBaseReader
 {
 	public boolean result;
-	public int errorCode;
-	public String message;
+	public int     code;
+	public String  message;
 	
 	public long GetDstServerId()
     {
@@ -25,7 +25,7 @@ public class ClientConnectReader extends TCPBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	result     = reader.ReadBoolean();
-    	errorCode  = reader.ReadInt32();
+    	code  = reader.ReadInt32();
     	message    = reader.ReadString16();
     }
     

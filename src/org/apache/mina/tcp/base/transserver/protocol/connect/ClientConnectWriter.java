@@ -8,7 +8,7 @@ public class ClientConnectWriter extends TCPBaseWriter
 {
 	
     public boolean result = true;
-    public int     errorCode = 0;
+    public int     code = 0;
     public String  message = "success";
     
     
@@ -28,7 +28,7 @@ public class ClientConnectWriter extends TCPBaseWriter
     protected void WriteContent(ProtocolStreamWriter writer)
     {
     	writer.WriteBoolean(result);
-    	writer.WriteInt32(errorCode);
+    	writer.WriteInt32(code);
     	writer.WriteString16(message);
     }
 }

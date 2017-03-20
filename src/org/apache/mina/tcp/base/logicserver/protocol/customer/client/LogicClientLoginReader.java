@@ -13,7 +13,6 @@ public class LogicClientLoginReader extends LogicBaseReader
 {
 
 	public String token;
-	public String userName;
 	public long   uid;
 	
 	public long GetDstServerId()
@@ -29,7 +28,6 @@ public class LogicClientLoginReader extends LogicBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	token    = reader.ReadString16();
-    	userName = reader.ReadString16();
     	uid      = reader.ReadInt64();
     	
     }

@@ -43,7 +43,7 @@ public class TServerToClientTransReader extends TCPBaseReader
     {
     	ReadHeader(reader);
     	
-        int  sliceIndex          = reader.ReadInt32();
+        reader.ReadInt32();//sliceIndex;
         
         ReadContent(reader);
       

@@ -7,7 +7,7 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 public class TServerNoticeClientOffLineWriter extends TCPBaseWriter
 {
 	
-    public long uid;
+    public boolean result;
     
     @Override
     public long GetSrcServerId()
@@ -24,6 +24,6 @@ public class TServerNoticeClientOffLineWriter extends TCPBaseWriter
     @Override
     protected void WriteContent(ProtocolStreamWriter writer)
     {
-    	writer.WriteInt64(uid);
+    	writer.WriteBoolean(result);
     }
 }

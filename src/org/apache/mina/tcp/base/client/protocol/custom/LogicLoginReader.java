@@ -13,7 +13,7 @@ public class LogicLoginReader extends TCPBaseReader
 	public ConnectLServer logicServer;
 	
 	public String result;
-	public int errorCode;
+	public int code;
 	public String message;
 
 	public long GetDstServerId()
@@ -29,7 +29,7 @@ public class LogicLoginReader extends TCPBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	result      = reader.ReadString16();
-    	errorCode   = reader.ReadInt32();
+    	code        = reader.ReadInt32();
     	message     = reader.ReadString16();
     	
     	logicServer = (ConnectLServer) ConnectBase.ConnectFactory(reader);

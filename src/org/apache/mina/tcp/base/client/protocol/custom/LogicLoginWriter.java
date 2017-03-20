@@ -7,7 +7,6 @@ import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 public class LogicLoginWriter extends TCPBaseWriter
 {
 	public String token    = "sdsssssssssssss";
-	public String userName = "lei";
 	public long   uid      = 213;
     
 	public long GetDstServerId()
@@ -23,7 +22,6 @@ public class LogicLoginWriter extends TCPBaseWriter
     protected void WriteContent(ProtocolStreamWriter writer)
     {
     	writer.WriteString16(token);
-    	writer.WriteString16(userName);
     	writer.WriteInt64(uid);
     }
 }

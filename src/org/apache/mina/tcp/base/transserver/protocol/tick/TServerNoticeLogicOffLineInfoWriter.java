@@ -7,8 +7,9 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 public class TServerNoticeLogicOffLineInfoWriter extends TCPBaseWriter
 {
 	
-    public int type;
-    public long id;
+	public boolean result;
+    public int     type;
+    public long    id;
     
     /*
      * 0 client 1 server

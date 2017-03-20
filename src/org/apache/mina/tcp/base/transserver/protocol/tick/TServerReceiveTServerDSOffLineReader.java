@@ -9,19 +9,6 @@ import org.apache.mina.tcp.base.transserver.TransServerManager;
 public class TServerReceiveTServerDSOffLineReader extends TCPBaseReader
 {
 
-	protected int type;
-	protected long id;
-	
-	public int GetType()
-	{
-		return type;
-	}
-	
-	public long GetId()
-	{
-		return id;
-	}
-	
 	@Override
 	public long GetSrcServerId()
     {
