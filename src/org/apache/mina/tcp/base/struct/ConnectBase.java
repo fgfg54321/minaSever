@@ -7,13 +7,13 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class ConnectBase
 {
+	public int               type;
 	public long              id;
 	public String            token;
 	public String            name;
 	public Route             route;
 	public Route             fromRoute;
 	public IoSession         session;
-	public int               type;
 	
 	public void Write(ProtocolStreamWriter writer)
 	{
