@@ -8,9 +8,9 @@ import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class LogicConnectWriter extends TCPBaseWriter
 {
-    public boolean result;
-    public int     errorCode;
-    public String  message;
+    public boolean result    = true;
+    public int     code      = 0;
+    public String  message   = "success";
     
     public  ConnectLServer logicServer;
     public  ConnectTServer tranServer;
@@ -42,6 +42,9 @@ public class LogicConnectWriter extends TCPBaseWriter
     protected void WriteContent(ProtocolStreamWriter writer)
     {
     	tranServer.Write(writer);
+    	writer.WriteBoolean(result);
+    	writer.WriteInt32(code);
+    	writer.WriteString16(message);
     }
 }
 

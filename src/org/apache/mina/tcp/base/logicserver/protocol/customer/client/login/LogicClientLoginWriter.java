@@ -1,4 +1,4 @@
-package org.apache.mina.tcp.base.logicserver.protocol.customer.client;
+package org.apache.mina.tcp.base.logicserver.protocol.customer.client.login;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
@@ -8,7 +8,7 @@ import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 public class LogicClientLoginWriter extends LogicBaseWriter
 {
 	public boolean result    = true;
-    public int     code = 0;
+    public int     code      = 0;
     public String  message   = "success";
     
 	public long GetDstServerId()

@@ -11,7 +11,7 @@ import org.apache.mina.tcp.base.struct.ConnectTServer;
 public class TServerConnectReader extends LogicBaseReader
 {
 	public boolean result;
-    public int     errorCode;
+    public int     code;
     public String  message;
     
 	public int GetMessageId()
@@ -22,6 +22,9 @@ public class TServerConnectReader extends LogicBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	connectInfo = ConnectBase.ConnectFactory(reader);
+    	result      = reader.ReadBoolean();
+    	code        = reader.ReadInt32();
+    	message     = reader.ReadString16();
     }
     
     public void  OnReader(IoSession session,Object param)

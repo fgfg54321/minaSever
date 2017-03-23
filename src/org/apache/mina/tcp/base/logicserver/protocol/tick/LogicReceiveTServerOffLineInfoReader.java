@@ -2,6 +2,7 @@ package org.apache.mina.tcp.base.logicserver.protocol.tick;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.tcp.base.transserver.TransServerManager;
@@ -30,6 +31,13 @@ public class LogicReceiveTServerOffLineInfoReader extends TCPBaseReader
     public void OnReader(IoSession session,Object param)
     {
     	//DO LOGIC LOGOUT
-    	
+    	if(type == LogicConfig.TYPE_CLIENT)
+    	{
+    		
+    	}
+    	else if(type == LogicConfig.TYPE_LSERVER)
+    	{
+    		
+    	}
     }
 }

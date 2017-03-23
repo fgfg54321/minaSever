@@ -1,4 +1,4 @@
-package org.apache.mina.tcp.base.logicserver.protocol.customer.client;
+package org.apache.mina.tcp.base.logicserver.protocol.customer.client.login;
 
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
@@ -29,7 +29,6 @@ public class LogicClientLoginReader extends LogicBaseReader
     {
     	token    = reader.ReadString16();
     	uid      = reader.ReadInt64();
-    	
     }
     
     

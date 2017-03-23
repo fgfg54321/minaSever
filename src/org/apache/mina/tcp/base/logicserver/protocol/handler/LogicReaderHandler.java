@@ -7,7 +7,7 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
-import org.apache.mina.tcp.base.logicserver.protocol.customer.client.LogicClientLoginReader;
+import org.apache.mina.tcp.base.logicserver.protocol.customer.client.login.LogicClientLoginReader;
 import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 
 public class LogicReaderHandler
