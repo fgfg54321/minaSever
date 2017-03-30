@@ -22,6 +22,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
 
 	protected ConnectBase  connectBase;
 	
+	private T
 	/*
 	 * 0 client 1 server
 	 */
@@ -80,7 +81,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
     @Override
     public boolean Combine(TCPBaseReader tReader,IoSession session,ProtocolDecoderOutput out)
     {
-    	LogicToTServerTransReader transTcpReader = (LogicToTServerTransReader)tReader;
+    	 LogicToTServerTransReader transTcpReader = (LogicToTServerTransReader)tReader;
     	 TCPBaseReader tcpReader  = transTcpReader.innerTcpReader;
 		 long uId                 = tcpReader.GetUniqueId();
 		 long cId                 = innerTcpReader.GetUniqueId();

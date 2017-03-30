@@ -83,7 +83,7 @@ public class LogicServerManager
 		ConnectTServer tServer   = connectTServerDic.get(routeId);
 		IoSession session        = tServer.session;
 		
-		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter();
+		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter(self);
 		offLineInfo.id        = id;
 		offLineInfo.type      = LogicConfig.TYPE_CLIENT;
 		session.write(offLineInfo);
@@ -119,7 +119,7 @@ public class LogicServerManager
 		long routeId               = route.id;
 		ConnectTServer tServer     = connectTServerDic.get(routeId);
 		IoSession session          = tServer.session;
-		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter();
+		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter(self);
 		offLineInfo.id             = serverId;
 		offLineInfo.type           = LogicConfig.TYPE_LSERVER;
 		session.write(offLineInfo);
@@ -175,7 +175,7 @@ public class LogicServerManager
 	{
 		ConnectTServer oldServer             = connectTServerDic.get(serverId);
 		IoSession oldSession                 = oldServer.session;
-		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter();
+		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter(self);
 		offLineInfo.id   = serverId;
 		offLineInfo.type = LogicConfig.TYPE_TSERVER;
 		oldSession.write(offLineInfo);

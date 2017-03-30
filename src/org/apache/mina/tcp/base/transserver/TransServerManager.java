@@ -285,7 +285,7 @@ public class TransServerManager
 	{
 		ConnectLServer oldServer             = logicServerConnectMap.get(serverId);
 		IoSession oldSession                = oldServer.session;
-		TServerNoticeLogicOffLineInfoWriter offLineResponse = new TServerNoticeLogicOffLineInfoWriter();
+		TServerNoticeLogicOffLineInfoWriter offLineResponse = new TServerNoticeLogicOffLineInfoWriter(self);
 		offLineResponse.SetType(TServerConfig.TYPE_LSERVER,serverId);
 		oldSession.write(offLineResponse);
 		oldSession.closeOnFlush();
@@ -308,7 +308,7 @@ public class TransServerManager
 		TServerNoticeClientOffLineWriter offLineResponse = new TServerNoticeClientOffLineWriter();
 		oldSession.write(offLineResponse);
 		
-		TServerNoticeLogicOffLineInfoWriter offLineResponseNoticeServer = new TServerNoticeLogicOffLineInfoWriter();
+		TServerNoticeLogicOffLineInfoWriter offLineResponseNoticeServer = new TServerNoticeLogicOffLineInfoWriter(self);
 		offLineResponseNoticeServer.SetType(TServerConfig.TYPE_CLIENT,uid);
 		oldSession.write(offLineResponseNoticeServer);
 		

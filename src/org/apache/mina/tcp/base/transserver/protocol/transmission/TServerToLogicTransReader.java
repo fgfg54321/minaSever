@@ -14,6 +14,7 @@ import org.apache.mina.tcp.base.transserver.TransServerManager;
 public class TServerToLogicTransReader extends TCPBaseReader
 {
 
+	private
 	public ConnectBase   connectBase;
     public byte[] datas;
 
