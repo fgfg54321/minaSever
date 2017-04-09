@@ -2,7 +2,7 @@ package org.apache.mina.tcp.base.transserver;
 
 public class TServerConfig
 {
-	public static final int CLIENT          = 0xffffffff;
+	public static final int CLIENT_ID       = 0xffffffff;
 	public static final int SERVER_ID       = 0x00000000;
 	
 	//Connect Server

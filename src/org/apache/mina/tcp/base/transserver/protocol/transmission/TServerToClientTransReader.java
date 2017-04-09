@@ -60,7 +60,7 @@ public class TServerToClientTransReader extends TCPBaseReader
 		if(server != null)
 		{
 			ConnectClient cClient                       = manager.GetClient(session);
-			TServerToLogicTransWriter tsToLogicWriter   = new TServerToLogicTransWriter(cClient,datas);
+			TServerToLogicTransWriter tsToLogicWriter   = new TServerToLogicTransWriter(manager.self,cClient,datas);
 			tsToLogicWriter.setDstServerId(dstServerId);
     		server.session.write(tsToLogicWriter);
 		}
@@ -71,7 +71,7 @@ public class TServerToClientTransReader extends TCPBaseReader
 			if(tServer == null)
 			{
 				ConnectClient cClient                        = manager.GetClient(session);
-				TServerToTServerTransWriter serverTransWriter = new TServerToTServerTransWriter(cClient,datas);
+				TServerToTServerTransWriter serverTransWriter = new TServerToTServerTransWriter(manager.self,cClient,datas);
 				tServer.session.write(serverTransWriter);
 			}
 		}

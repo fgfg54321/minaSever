@@ -47,82 +47,6 @@ public class TransServerManager
 		self.name  = "1";
 		self.token = "";
 	}
-	/*
-	public boolean Login(IoSession session,TCPBaseReader tcpRequest)
-	{
-		if(tcpRequest.GetMessageId() != TServerConfig.MESSAGE_LOGIN)
-		{
-			session.close(true);
-			return false;
-		}
-		
-    	if(IsTServer(session))
-    	{
-    		TServerDSSendConnectReader serverLogin = (TServerDSSendConnectReader)tcpRequest;
-			ConnectTServer server              = serverLogin.connectServer;
-			session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
-			long srcServerId                   =  server.id;
-			session.setAttribute(TYPE_ID, srcServerId);
-			if(transServerConnectMap.containsKey(srcServerId))
-			{
-				LServerTick(srcServerId);
-				transServerConnectMap.replace(srcServerId, server);
-			}
-			else
-			{
-				TServerDSReceiveConnectWriter loginResponse = new TServerDSReceiveConnectWriter(self);
-				session.write(loginResponse);
-				transServerConnectMap.put(srcServerId, server);
-			}
-			
-			return true;
-    	}
-    	else if(IsLServer(session))
-    	{
-    		LogicConnectReader serverLogin = (LogicConnectReader)tcpRequest;
-			ConnectLServer server           = serverLogin.logicServer;
-			session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
-			long srcServerId               =  server.id;
-			session.setAttribute(TYPE_ID, srcServerId);
-			if(logicServerConnectMap.containsKey(srcServerId))
-			{
-				LServerTick(srcServerId);
-				logicServerConnectMap.replace(srcServerId, server);
-			}
-			else
-			{
-				LogicConnectWriter loginResponse = new LogicConnectWriter(server,self);
-				session.write(loginResponse);
-				logicServerConnectMap.put(srcServerId, server);
-			}
-			
-			return true;
-    	}
-    	else if(IsClient(session))
-    	{
-    		ClientConnectReader clientLogin    = (ClientConnectReader)tcpRequest;
-    		ConnectClient client                 = clientLogin.connectClient;
-    		session.setAttribute(TYPE_LOGSTATUS, TYPE_LOGIN);
-    		long uid                       = client.id;
-    		session.setAttribute(TYPE_ID, uid);
-    		
-    		if(clientConnectMap.containsKey(uid))
-    		{
-    			ClientTick(uid);
-    			clientConnectMap.replace(uid, client);
-    		}
-    		else
-    		{
-    			ClientConnectWriter loginResponse = new ClientConnectWriter();
-				session.write(loginResponse);
-    			clientConnectMap.put(uid, client);
-    		}
-    		
-    		return true;
-    	}
-    	return false;
-	}
-	*/
 	
 	public void ClientLogin(IoSession session, ConnectClient client)
 	{
@@ -283,7 +207,7 @@ public class TransServerManager
 	
 	protected void LServerTick(long serverId)
 	{
-		ConnectLServer oldServer             = logicServerConnectMap.get(serverId);
+		ConnectLServer oldServer            = logicServerConnectMap.get(serverId);
 		IoSession oldSession                = oldServer.session;
 		TServerNoticeLogicOffLineInfoWriter offLineResponse = new TServerNoticeLogicOffLineInfoWriter(self);
 		offLineResponse.SetType(TServerConfig.TYPE_LSERVER,serverId);

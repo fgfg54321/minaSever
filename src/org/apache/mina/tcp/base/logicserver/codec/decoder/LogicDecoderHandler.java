@@ -16,6 +16,9 @@ import org.apache.mina.tcp.base.transserver.protocol.tick.TServerNoticeLogicOffL
 
 public class LogicDecoderHandler extends DecoderHandler
 {
+	/*
+	 * must deal with data expired
+	 */
 	public ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>> clientReaderCacheDic = new ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>>();
 	
 	public ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>> serverReaderCacheDic = new ConcurrentHashMap<Long, ConcurrentHashMap<Long,TCPBaseReader>>();

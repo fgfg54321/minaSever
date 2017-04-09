@@ -12,7 +12,7 @@ public class LogicLoginReader extends TCPBaseReader
 {
 	public ConnectLServer logicServer;
 	
-	public String result;
+	public boolean result;
 	public int code;
 	public String message;
 
@@ -28,11 +28,10 @@ public class LogicLoginReader extends TCPBaseReader
     
     public  void ReadContent(ProtocolStreamReader reader)
     {
-    	result      = reader.ReadString16();
+    	result      = reader.ReadBoolean();
     	code        = reader.ReadInt32();
     	message     = reader.ReadString16();
     	
-    	logicServer = (ConnectLServer) ConnectBase.ConnectFactory(reader);
     }
     
     public void  OnReader(IoSession session,Object param)

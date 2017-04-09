@@ -13,6 +13,7 @@ import org.apache.mina.tcp.base.logicserver.protocol.handler.LogicReaderHandler;
 import org.apache.mina.tcp.base.stream.SplitPackage;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectBase;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.struct.Route;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 import org.apache.mina.utils.SVZipUtils;
@@ -20,9 +21,9 @@ import org.apache.mina.utils.SVZipUtils;
 public class LogicToTServerTransReader extends TCPBaseReader
 {
 
-	protected ConnectBase  connectBase;
+	private   ConnectTServer transServer;
 	
-	private T
+	protected ConnectBase  connectBase;
 	/*
 	 * 0 client 1 server
 	 */
@@ -72,6 +73,7 @@ public class LogicToTServerTransReader extends TCPBaseReader
     @Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
+    	transServer              = (ConnectTServer) ConnectBase.ConnectFactory(reader);
     	connectBase              = ConnectBase.ConnectFactory(reader);
     	connectBase.fromRoute    = new Route();
     	connectBase.fromRoute.id = GetSrcServerId();

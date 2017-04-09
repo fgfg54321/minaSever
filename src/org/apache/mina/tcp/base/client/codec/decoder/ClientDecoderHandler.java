@@ -5,11 +5,10 @@ import org.apache.mina.filter.codec.ProtocolDecoderOutput;
 import org.apache.mina.stream.ProtocolStreamReader;
 import org.apache.mina.tcp.base.client.ClientConfig;
 import org.apache.mina.tcp.base.client.protocol.connect.ClientConnectReader;
+import org.apache.mina.tcp.base.client.protocol.custom.LogicLoginReader;
 import org.apache.mina.tcp.base.client.protocol.tick.ClientOffLineReader;
 import org.apache.mina.tcp.base.handler.DecoderHandler;
-import org.apache.mina.tcp.base.logicserver.protocol.transmission.LogicToTServerTransReader;
 import org.apache.mina.tcp.base.stream.TCPBaseReader;
-import org.apache.mina.tcp.base.transserver.TransServerManager;
 
 public class ClientDecoderHandler extends DecoderHandler
 {
@@ -55,7 +54,7 @@ public class ClientDecoderHandler extends DecoderHandler
     		{
      			case ClientConfig.LOGIC_MESSAGE_LOGIN:
      			{
-     				tcpReader = new LogicToTServerTransReader();
+     				tcpReader = new LogicLoginReader();
      				tcpReader.Read(reader,session,out);
      				
      				break;

@@ -55,13 +55,9 @@ public class LogicServerManager
 			clientInfoDic.replace(id, clientInfo);
 		}
 		
-		Route route              = clientInfo.fromRoute;
-		long routeId             = route.id;
-		ConnectTServer tServer   = connectTServerDic.get(routeId);
-		IoSession session        = tServer.session;
-		
 		LogicClientLoginWriter logicWriter = new LogicClientLoginWriter();
-		session.write(logicWriter);
+		SendToClient(clientInfo,logicWriter);
+		
 	}
 
 	public void ClientLoginOut(long uid)
@@ -176,8 +172,8 @@ public class LogicServerManager
 		ConnectTServer oldServer             = connectTServerDic.get(serverId);
 		IoSession oldSession                 = oldServer.session;
 		LogicReceiveTServerOffLineInfoWriter offLineInfo = new LogicReceiveTServerOffLineInfoWriter(self);
-		offLineInfo.id   = serverId;
-		offLineInfo.type = LogicConfig.TYPE_TSERVER;
+		offLineInfo.id                       = serverId;
+		offLineInfo.type                     = LogicConfig.TYPE_TSERVER;
 		oldSession.write(offLineInfo);
 		oldSession.closeOnFlush();
 	}
@@ -193,12 +189,12 @@ public class LogicServerManager
 			ConnectTServer tServer       = connectTServerDic.get(routeId);
 			IoSession session            = tServer.session;
 			
-			List<IoBuffer> sendBuffers    = logicWriter.GenerateSendBuffer();
+			List<IoBuffer> sendBuffers    = logicWriter.GenerateGZipOrSplitBuffer();
 			for(int i = 0; i < sendBuffers.size();i++)
 			{
 				IoBuffer ioBuffer                        = sendBuffers.get(i);
 				byte[] datas                             = ioBuffer.array();
-				LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(logicServer,datas);
+				LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(self,logicServer,datas);
 				session.write(logicToTServer);
 			}
 			
@@ -210,21 +206,27 @@ public class LogicServerManager
 		if(clientInfoDic.containsKey(id))
 		{
 			ConnectClient client     = clientInfoDic.get(id);
-			Route route              = client.fromRoute;
-			long routeId             = route.id;
-			ConnectTServer tServer   = connectTServerDic.get(routeId);
-			IoSession session        = tServer.session;
-			
-			List<IoBuffer> sendBuffers    = logicWriter.GenerateSendBuffer();
-			for(int i = 0; i < sendBuffers.size();i++)
-			{
-				IoBuffer ioBuffer                        = sendBuffers.get(i);
-				byte[] datas                             = ioBuffer.array();
-				LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(client,datas);
-				session.write(logicToTServer);
-			}
-			
+			SendToClient(client,logicWriter);
 		}
+	}
+	
+	
+	public void SendToClient(ConnectClient client,LogicBaseWriter logicWriter)
+	{
+		Route route              = client.fromRoute;
+		long routeId             = route.id;
+		ConnectTServer tServer   = connectTServerDic.get(routeId);
+		IoSession session        = tServer.session;
+		
+		List<IoBuffer> sendBuffers    = logicWriter.GenerateGZipOrSplitBuffer();
+		for(int i = 0; i < sendBuffers.size();i++)
+		{
+			IoBuffer ioBuffer                        = sendBuffers.get(i);
+			byte[] datas                             = ioBuffer.array();
+			LogicToTServerTransWriter logicToTServer = new LogicToTServerTransWriter(self,client,datas);
+			session.write(logicToTServer);
+		}
+		
 	}
 	
 }

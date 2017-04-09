@@ -14,6 +14,7 @@ import org.apache.mina.tcp.base.transserver.TransServerManager;
 public class TServerToTServerTransReader extends TCPBaseReader
 {
 
+	public ConnectTServer connectTServer;
 	public ConnectBase  connectBase;
     public byte[] datas;
 
@@ -43,9 +44,9 @@ public class TServerToTServerTransReader extends TCPBaseReader
     @Override
     public  void ReadContent(ProtocolStreamReader reader)
     {
-
-    	connectBase = ConnectBase.ConnectFactory(reader);
-    	datas       = reader.ReadToEnd();
+    	connectTServer = (ConnectTServer) ConnectBase.ConnectFactory(reader);
+    	connectBase    = ConnectBase.ConnectFactory(reader);
+    	datas          = reader.ReadToEnd();
     	
     }
     
@@ -82,7 +83,7 @@ public class TServerToTServerTransReader extends TCPBaseReader
         		else//post from transServer
         		{
         			ConnectTServer tServer = manager.GetTServer(fromServerId);
-        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(dstClient,datas);
+        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(manager.self,dstClient,datas);
         			tServer.session.write(tServerWriter);
         			
         		}
@@ -99,14 +100,14 @@ public class TServerToTServerTransReader extends TCPBaseReader
     			long fromServerId = dstServer.fromRoute.id;
     			if(fromServerId == TServerConfig.SERVER_ID)
     			{
-    				TServerToLogicTransWriter logicTransWriter = new TServerToLogicTransWriter(dstServer,datas);
+    				TServerToLogicTransWriter logicTransWriter = new TServerToLogicTransWriter(manager.self,dstServer,datas);
     				logicTransWriter.setDstServerId(id);
         			dstServer.session.write(logicTransWriter);	
     			}
     			else//post from transServer
     			{
     				ConnectTServer tServer = manager.GetTServer(fromServerId);
-        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(dstServer,datas);
+        			TServerToTServerTransWriter tServerWriter = new TServerToTServerTransWriter(manager.self,dstServer,datas);
         			tServer.session.write(tServerWriter);
     			}
     							

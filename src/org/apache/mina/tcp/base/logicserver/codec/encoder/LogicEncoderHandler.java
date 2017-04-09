@@ -12,7 +12,6 @@ public class LogicEncoderHandler extends EncoderHandler
 	public boolean Encode(TCPBaseWriter tcpWriter,IoSession session, ProtocolEncoderOutput out)
 	{
 		
-		
 		tcpWriter.WriteDirectly(session, out);
 			
 		return true;

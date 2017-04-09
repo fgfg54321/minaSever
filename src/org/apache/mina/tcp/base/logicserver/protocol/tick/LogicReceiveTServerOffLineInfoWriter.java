@@ -1,6 +1,7 @@
 package org.apache.mina.tcp.base.logicserver.protocol.tick;
 
 import org.apache.mina.stream.ProtocolStreamWriter;
+import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
@@ -20,11 +21,19 @@ public class LogicReceiveTServerOffLineInfoWriter extends TCPBaseWriter
 		this.logicServer = logicServer;
 	}
     
-    public long GetSrcServerId()
+	@Override
+	public long GetSrcServerId()
+	{
+		return LogicConfig.SERVER_ID;
+	}
+	
+	@Override
+    public long GetDstServerId()
     {
     	return TServerConfig.SERVER_ID;
     }
     
+	@Override
     public int GetMessageId()
     {
     	return TServerConfig.MESSAGE_OFFLINE;

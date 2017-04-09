@@ -1,7 +1,7 @@
 package org.apache.mina.tcp.base.logicserver.protocol.connect;
 
-import org.apache.mina.client.Config;
 import org.apache.mina.stream.ProtocolStreamWriter;
+import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseWriter;
 import org.apache.mina.tcp.base.struct.ConnectLServer;
 
@@ -14,7 +14,7 @@ public class TServerConnectWriter extends LogicBaseWriter
 	
     public int GetMessageId()
     {
-    	return Config.MESSAGE_LOGIN;
+    	return LogicConfig.MESSAGE_CONNECT_LOGIN;
     }
     
     protected void WriteContent(ProtocolStreamWriter writer)

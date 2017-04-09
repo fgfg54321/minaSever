@@ -31,33 +31,33 @@ public class ClientDecoderHandler extends DecoderHandler
     	int messageId                  = tcpReader.GetMessageId();
 		
 		reader.Reset();
-		if(!TransServerManager.IsLogin(session))
-		{	
-			if(dstServer == TServerConfig.SERVER_ID)
+		
+		if(dstServer == TServerConfig.SERVER_ID)
+		{
+			switch(messageId)
 			{
-				switch(messageId)
+				case TServerConfig.MESSAGE_LOGIN:
 				{
-					case TServerConfig.MESSAGE_LOGIN:
-					{
-						tcpReader = new ClientConnectReader();
-						tcpReader.Read(reader,session,out);
-						break;
-					}
-					case TServerConfig.MESSAGE_OFFLINE:
-					{
-						tcpReader = new TServerNoticeClientOffLineReader();
-						tcpReader.Read(reader,session,out);
-						
-						break;
-					}
+					tcpReader = new ClientConnectReader();
+					tcpReader.Read(reader,session,out);
+					break;
+				}
+				case TServerConfig.MESSAGE_OFFLINE:
+				{
+					tcpReader = new TServerNoticeClientOffLineReader();
+					tcpReader.Read(reader,session,out);
+					
+					break;
 				}
 			}
 		}
 		else
 		{
-			
-			tcpReader = new TServerToClientTransReader();
-			tcpReader.Read(reader,session,out);
+			if(TransServerManager.IsLogin(session))
+			{	
+				tcpReader = new TServerToClientTransReader();
+				tcpReader.Read(reader,session,out);
+			}
 			
 		}
     		

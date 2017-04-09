@@ -25,7 +25,7 @@ public class ClientConnectReader extends TCPBaseReader
     public  void ReadContent(ProtocolStreamReader reader)
     {
     	result     = reader.ReadBoolean();
-    	code  = reader.ReadInt32();
+    	code       = reader.ReadInt32();
     	message    = reader.ReadString16();
     }
     

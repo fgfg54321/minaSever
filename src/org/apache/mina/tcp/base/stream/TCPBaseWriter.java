@@ -71,12 +71,7 @@ public class TCPBaseWriter
     	
     }
     
-    public void Write()
-    {
-    	WriteContent(writer);
-    }
-    
-    public void Write(IoSession session, ProtocolEncoderOutput output)
+    public void GZipOrSplitWrite(IoSession session, ProtocolEncoderOutput output)
     {
     	WriteContent(writer);
     	Send(session,output);
@@ -88,7 +83,7 @@ public class TCPBaseWriter
     	SendDirectly(session,output);
     }
     
-    public List<IoBuffer> GenerateSendBuffer()
+    public List<IoBuffer> GenerateGZipOrSplitBuffer()
     {
     	WriteContent(writer);
     	

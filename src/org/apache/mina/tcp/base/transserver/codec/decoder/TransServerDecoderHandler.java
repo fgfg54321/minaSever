@@ -30,36 +30,33 @@ public class TransServerDecoderHandler extends DecoderHandler
     	int messageId                  = tcpReader.GetMessageId();
  		
 		reader.Reset();
-		if(!TransServerManager.IsLogin(session))
+		
+		if(dstServer == TServerConfig.SERVER_ID)
 		{
-			if(dstServer == TServerConfig.SERVER_ID)
-	 		{
-				switch(messageId)
+			switch(messageId)
+			{
+				case TServerConfig.MESSAGE_LOGIN:
 				{
- 					case TServerConfig.MESSAGE_LOGIN:
-					{
-	 					tcpReader = new TServerDSReceiveConnectReader();
-	     				tcpReader.Read(reader,session,out);
-	     				
-	     				break;
-					}
-
-	     			case TServerConfig.MESSAGE_OFFLINE:
-	     			{
-	     				tcpReader = new TServerReceiveTServerDSOffLineReader();
-	     				tcpReader.Read(reader,session,out);
-	     				
-	     				break;
-	     			}
- 				
+					tcpReader = new TServerDSReceiveConnectReader();
+	 				tcpReader.Read(reader,session,out);
+	 				break;
 				}
-	 		}
-	 		
+	
+	 			case TServerConfig.MESSAGE_OFFLINE:
+	 			{
+	 				tcpReader = new TServerReceiveTServerDSOffLineReader();
+	 				tcpReader.Read(reader,session,out);
+	 				break;
+	 			}
+			}
 		}
 		else
 		{
-			tcpReader = new TServerToTServerTransReader();
-			tcpReader.Read(reader,session,out);
+			if(TransServerManager.IsLogin(session))
+			{
+				tcpReader = new TServerToTServerTransReader();
+				tcpReader.Read(reader,session,out);
+			}
 		}
 	         
 	    return true;

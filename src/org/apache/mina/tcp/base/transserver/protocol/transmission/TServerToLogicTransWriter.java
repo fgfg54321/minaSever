@@ -3,14 +3,16 @@ package org.apache.mina.tcp.base.transserver.protocol.transmission;
 import org.apache.mina.stream.ProtocolStreamWriter;
 import org.apache.mina.tcp.base.stream.TCPBaseWriter;
 import org.apache.mina.tcp.base.struct.ConnectBase;
+import org.apache.mina.tcp.base.struct.ConnectTServer;
 import org.apache.mina.tcp.base.transserver.TServerConfig;
 
 public class TServerToLogicTransWriter extends TCPBaseWriter
 {
 	
-	public ConnectBase   connectBase;
-	public byte[]        datas;
-	public long          dstServerId;
+	public ConnectTServer connectTServer;  
+	public ConnectBase    connectBase;
+	public byte[]         datas;
+	public long           dstServerId;
 	
 	
     public TServerToLogicTransWriter()
@@ -18,8 +20,9 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
     
     }
     
-    public TServerToLogicTransWriter(ConnectBase connectBase,byte[] datas)
+    public TServerToLogicTransWriter(ConnectTServer connectTServer,ConnectBase connectBase,byte[] datas)
     {
+    	this.connectTServer = connectTServer; 
     	this.connectBase    = connectBase;
     	this.datas          = datas;
     }
@@ -50,6 +53,7 @@ public class TServerToLogicTransWriter extends TCPBaseWriter
     @Override
     protected void WriteContent(ProtocolStreamWriter writer)
     {
+    	connectTServer.Write(writer);
     	connectBase.Write(writer);
 		writer.WriteBytes(datas);
     }

@@ -29,33 +29,44 @@ public class LogicServerDecoderHandler extends DecoderHandler
     	int messageId                  = tcpReader.GetMessageId();
  		
 		reader.Reset();
-		if(!TransServerManager.IsLogin(session))
-		{
-			if(dstServer == TServerConfig.SERVER_ID)
-	 		{
-				switch(messageId)
+		
+		if(dstServer == TServerConfig.SERVER_ID)
+ 		{
+			switch(messageId)
+			{
+			
+				case TServerConfig.MESSAGE_LOGIN:
 				{
- 					case TServerConfig.MESSAGE_LOGIN:
-					{
-	 					tcpReader = new LogicConnectReader();
-	     				tcpReader.Read(reader,session,out);
-	     				
-	     				break;
-	     			}
- 					case TServerConfig.MESSAGE_OFFLINE:
-	     			{
-	     				tcpReader = new TServerNoticeLogicOffLineInfoReader();
-	     				tcpReader.Read(reader,session,out);
-	     				
-	     				break;
-	     			}
-				}
-	 		}
-		}
+ 					tcpReader = new LogicConnectReader();
+     				tcpReader.Read(reader,session,out);
+     				
+     				break;
+     			}
+				case TServerConfig.MESSAGE_OFFLINE:
+     			{
+     				tcpReader = new TServerNoticeLogicOffLineInfoReader();
+     				tcpReader.Read(reader,session,out);
+     				
+     				break;
+     			}
+     			default:
+     			{
+     				if(TransServerManager.IsLogin(session))
+     				{
+     					tcpReader = new TServerToLogicTransReader();
+     					tcpReader.Read(reader,session,out);
+     				}
+     				break;
+     			}
+			}
+ 		}
 		else
 		{
-			tcpReader = new TServerToLogicTransReader();
-			tcpReader.Read(reader,session,out);
+			if(TransServerManager.IsLogin(session))
+			{
+				tcpReader = new TServerToLogicTransReader();
+				tcpReader.Read(reader,session,out);
+			}
 		}
 	 		
 	  return true;

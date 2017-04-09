@@ -1,8 +1,8 @@
 package org.apache.mina.tcp.base.logicserver.protocol.connect;
 
-import org.apache.mina.client.Config;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.stream.ProtocolStreamReader;
+import org.apache.mina.tcp.base.logicserver.LogicConfig;
 import org.apache.mina.tcp.base.logicserver.LogicServerManager;
 import org.apache.mina.tcp.base.logicserver.protocol.customer.LogicBaseReader;
 import org.apache.mina.tcp.base.struct.ConnectBase;
@@ -16,7 +16,7 @@ public class TServerConnectReader extends LogicBaseReader
     
 	public int GetMessageId()
     {
-    	return Config.MESSAGE_LOGIN;
+		return LogicConfig.MESSAGE_CONNECT_LOGIN;
     }
     
     public  void ReadContent(ProtocolStreamReader reader)
