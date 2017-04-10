@@ -1,0 +1,30 @@
+<ehcache>
+
+    <!-- Sets the path to the directory where cache .data files are created.
+
+         If the path is a Java System Property it is replaced by
+         its value in the running VM.
+
+         The following properties are translated:
+         user.home - User's home directory
+         user.dir - User's current working directory
+         java.io.tmpdir - Default temp file path -->
+　　
+　　<!--指定二级缓存存放在磁盘上的位置-->
+    <diskStore path="user.dir"/>　　
+
+　　<!--我们可以给每个实体类指定一个对应的缓存，如果没有匹配到该类，则使用这个默认的缓存配置-->
+    <defaultCache maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true"/>
+　　
+　　<!--
+　　　　1、timeToLiveSeconds的定义是：以创建时间为基准开始计算的超时时长；
+　　　　2、timeToIdleSeconds的定义是：在创建时间和最近访问时间中取出离现在最近的时间作为基准计算的超时时长；
+　　　　3、如果仅设置了timeToLiveSeconds，则该对象的超时时间=创建时间+timeToLiveSeconds，假设为A；
+　　　　4、如果没设置timeToLiveSeconds，则该对象的超时时间=max(创建时间，最近访问时间)+timeToIdleSeconds，假设为B；
+　　　　5、如果两者都设置了，则取出A、B最少的值，即min(A,B)，表示只要有一个超时成立即算超时。
+　　-->
+
+　　<!--可以给每个实体类指定一个配置文件，通过name属性指定，要使用类的全名-->
+    <cache name="com.ltgame.record.main.Employee" maxElementsInMemory="10000" eternal="true" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="true"/>
+
+</ehcache>
