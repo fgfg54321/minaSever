@@ -37,5 +37,10 @@
 	<classpathentry kind="lib" path="lib/db/jboss-logging-3.3.0.Final.jar"/>
 	<classpathentry kind="lib" path="lib/db/mysql-connector-java-5.1.40-bin.jar"/>
 	<classpathentry kind="lib" path="lib/db/slf4j-simple-1.7.7.jar"/>
+	<classpathentry kind="lib" path="lib/http/async-http-client-2.0.31.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/mina/docs/apidocs/async-http-client-2.0.31-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

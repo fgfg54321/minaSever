@@ -48,6 +48,11 @@ public class TransServerManager
 		self.token = "";
 	}
 	
+	public void Initialize()
+	{
+		
+	}
+	
 	public void ClientLogin(IoSession session, ConnectClient client)
 	{
 		client.session = session;
